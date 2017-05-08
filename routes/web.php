@@ -31,8 +31,9 @@ Route::get('admin-login', 'Admin\AdminLoginController@showLoginForm')->name('adm
 Route::post('admin-login', 'Admin\AdminLoginController@login')->name('admin.login');
 Route::post('admin-logout', 'Admin\AdminLoginController@logout')->name('admin.logout');
 
-Route::get('auth/facebook', 'Auth\SocialiteController@redirectToProvider');
-Route::get('auth/facebook/callback', 'Auth\SocialiteController@handleProviderCallback');
+Route::get('auth/socialite', 'Auth\SocialiteController@redirectToProvider')->name('redirectToProvider');
+Route::get('auth/facebook/callback', 'Auth\SocialiteController@handleProviderFacebookCallback');
+Route::get('auth/google/callback', 'Auth\SocialiteController@handleProviderGoogleCallback');
 
 Route::group(['prefix' => 'backend', 'middleware' => 'auth:admin'], function () {
 

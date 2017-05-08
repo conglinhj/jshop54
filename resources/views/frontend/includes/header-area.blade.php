@@ -46,10 +46,22 @@
 
 {{--register modal--}}
 <div class="modal fade" hidden="true" id="registerModal" role="dialog" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="panel panel-filled">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Đăng ký với:</h4>
+                </div>
                 <div class="panel-body">
+                    <div class="form-group">
+                        <a class="btn btn-primary btn-block" href="{{ route('redirectToProvider',['social' => 'facebook']) }}" >
+                            <i class="fa fa-facebook" aria-hidden="true"></i> Đăng nhập bằng Facebook
+                        </a>
+                        <a class="btn btn-danger btn-block" href="{{ route('redirectToProvider',['social' => 'google']) }}" >
+                            <i class="fa fa-google" aria-hidden="true"></i> Đăng nhập bằng Google
+                        </a>
+                    </div>
                     @include('frontend.includes.register-form')
                 </div>
             </div>
@@ -59,10 +71,22 @@
 
 {{--Login modal--}}
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="panel panel-filled">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title ">Đăng nhập với :</h4>
+                </div>
                 <div class="panel-body">
+                    <div class="form-group">
+                        <a class="btn btn-primary btn-block" href="{{ route('redirectToProvider',['social' => 'facebook']) }}" >
+                            <i class="fa fa-facebook" aria-hidden="true"></i> Đăng nhập bằng Facebook
+                        </a>
+                        <a class="btn btn-danger btn-block" href="{{ route('redirectToProvider',['social' => 'google']) }}" >
+                            <i class="fa fa-google" aria-hidden="true"></i> Đăng nhập bằng Google
+                        </a>
+                    </div>
                     @include('frontend.includes.login-form')
                 </div>
             </div>

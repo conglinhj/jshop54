@@ -24,8 +24,8 @@
         <span class="help-block"><strong id="form-errors-password-confirm"></strong></span>
     </div>
 
-    <div>
-        <button class="btn btn-login right">Register</button>
+    <div class="form-group">
+        <button class="btn btn-primary btn-block">Đăng ký</button>
     </div>
 
     <p>Bạn đã có tài khoản? <a class="btn-to-login" href="#" data-toggle="modal" data-target="#loginModal"> Đăng nhập</a></p>

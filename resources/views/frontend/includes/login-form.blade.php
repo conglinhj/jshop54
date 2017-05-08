@@ -32,17 +32,8 @@
     </div>
 
     <div class="form-group">
-        <button class="btn btn-primary">Login</button>
+        <button class="btn btn-primary btn-block">Đăng nhập</button>
         <a class="btn btn-link right" href="{{ url('/password/reset') }}">Quên mật khẩu ?</a>
-    </div>
-
-    <div class="form-group">
-        <a class="btn btn-primary" href="{{ route('redirectToProvider',['social' => 'facebook']) }}" >
-            <i class="fa fa-facebook" aria-hidden="true"></i> Đăng nhập bằng Facebook
-        </a>
-        <a class="btn btn-danger" href="{{ route('redirectToProvider',['social' => 'google']) }}" >
-            <i class="fa fa-google" aria-hidden="true"></i> Đăng nhập bằng Google
-        </a>
     </div>
 
     <p>Bạn chưa có tài khoản? <a class="btn-to-register" href="#" data-toggle="modal" data-target="#registerModal"> Đăng ký</a></p>

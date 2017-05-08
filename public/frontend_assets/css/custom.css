@@ -59,6 +59,11 @@
 .col-1 {
     margin-left: 112px;
 }
+.btn , input{
+    -webkit-border-radius:0 !important;
+    -moz-border-radius:0 !important;
+    border-radius:0 !important;
+}
 #login-form-checkout, #register-form-checkout, .woocommerce-checkout {
     background: none repeat scroll 0 0 #f4f4f4;
     padding: 10px;

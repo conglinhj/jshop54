@@ -1,0 +1,66 @@
+.single-shop-product .product-upper{
+    text-align: center;
+}
+.product-hover a{
+    line-height: 10px;
+}
+.product-hover-custom a{
+    width: 50%;
+    margin-left: 16.9%;
+}
+.box-shadow {
+    padding: 0 4%;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+}
+.single-product p {
+    color: #0d0d0d;
+    font-weight: 600;
+}
+.single-product p span{
+    font-weight: normal;
+}
+.product-carousel-price ins,
+.product-inner-price ins {
+    color: #c10017;
+    font-weight: 700;
+    margin-right: 5px;
+    text-decoration: none;
+}
+.loading-block {
+    display: none;
+    position:fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.05);
+    z-index: 1;
+}
+.loading-block img {
+    z-index: 2;
+    position:fixed;
+    top:45%;
+    left:45%;
+}
+.product-f-image {
+    text-align: center;
+    overflow: hidden;
+    height: 200px;
+}
+.product-f-image img {
+    height: 180px;
+    width: auto;
+}
+.product-f-image a:hover img {
+    -moz-transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+}
+.col-1 {
+    margin-left: 112px;
+}
+#login-form-checkout, #register-form-checkout, .woocommerce-checkout {
+    background: none repeat scroll 0 0 #f4f4f4;
+    padding: 10px;
+    margin-bottom: 30px;
+}

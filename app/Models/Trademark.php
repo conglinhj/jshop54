@@ -12,7 +12,7 @@ class Trademark extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'brand',
+        'name', 'brand', 'active'
     ];
 
     /**
@@ -29,6 +29,14 @@ class Trademark extends Model
     }
     public function viewDetail($id){
         return $this->find($id);
+    }
+
+    /**
+     *  for frontend
+     */
+
+    public function activating(){
+        return $this->where('active','=',1)->get();
     }
 
 }

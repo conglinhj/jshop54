@@ -1,5 +1,5 @@
 @extends('frontend.master')
-
+@section('title','Giỏ hàng')
 @section('content')
     <div class="single-product-area">
         <div class="zigzag-bottom"></div>
@@ -27,6 +27,7 @@
                                     <tbody>
 
                                     @foreach(Cart::content() as $item)
+                                        {{ debug($item) }}
                                         <tr class="cart_item">
                                             <td class="product-remove">
                                                 <a data-url="{{ route('cart-remove') }}" data-rowId="{{ $item->rowId }}" class="remove_cart" title="Remove this item" ><i class="glyphicon glyphicon-remove"></i></a>
@@ -191,7 +192,7 @@
                 type : 'GET',
                 url : $(this).attr('data-url'),
                 data : {
-                    id : $(this).attr('data-rowId')
+                    row_id : $(this).attr('data-rowId')
                 },
                 success:function () {
                     $('.loading-block').show();

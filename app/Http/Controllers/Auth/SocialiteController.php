@@ -40,19 +40,22 @@ class SocialiteController extends Controller
      * đáng nhẽ gộp lại cho đúng chuẩn nhưng chưa có thời gian, hard core.
      */
     public function findOrCreateFacebookUser($user){
-        // kiểm trả email đã tồn tại chưa
+
         $auth_jshop = User::orWhere('email', $user->getEmail())->first();
+        // Email đã tồn tại tài khoản
         if ($auth_jshop){
-            if ( empty($auth_jshop->facebook_id) && $auth_jshop->facebook_id != $user->getId()){
-
-                $auth_jshop->update([ 'facebook_id' => $user->getId(), ]);
-                $user_saved = User::where( 'facebook_id', $user->getId() )->first();
-                return $user_saved;
-
+            // Email đã tồn tại tài khoản và có facebook_id
+            if ( !empty($auth_jshop->facebook_id) && $auth_jshop->facebook_id == $user->getId()){
+                // Nếu tên facebook đã đổi thì
+                return $auth_jshop;
             }
-            return $auth_jshop;
+            // Email đã tồn tại tài khoản và nhưng không có facebook_id, update fb_id
+            $auth_jshop->update([ 'facebook_id' => $user->getId(), ]);
+            $user_saved = User::where( 'facebook_id', $user->getId() )->first();
+            return $user_saved;
         }
         $gender = isset($user->user['gender']) ? $user->user['gender'] : '';
+        // Email đã tồn tại tài khoản, tạo tài khoản mới, không có password
         return User::create([
             'name' => $user->getName(),
             'email' => $user->getEmail(),

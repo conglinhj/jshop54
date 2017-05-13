@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Models\DbCart;
+use App\Models\DbCartDetail;
 
 class AppServiceProvider extends ServiceProvider
 {

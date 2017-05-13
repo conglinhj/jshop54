@@ -11,30 +11,46 @@
 |
 */
 
+/**
+ * Authenticate User
+ */
 Auth::routes();
+Route::get('auth/socialite', 'Auth\SocialiteController@redirectToProvider')->name('redirectToProvider');
+Route::get('auth/facebook/callback', 'Auth\SocialiteController@handleProviderFacebookCallback');
+Route::get('auth/google/callback', 'Auth\SocialiteController@handleProviderGoogleCallback');
+
+/**
+ * Route for Frontend
+ */
 Route::get('/', 'HomeController@home');
 Route::get('home', 'HomeController@home')->name('home');
 Route::get('shop', 'HomeController@shop')->name('shop');
+Route::get('checkout', 'HomeController@checkOut')->name('checkout')->middleware('checkout');
+
 Route::get('your-cart', 'CartController@cart')->name('cart');
 Route::get('add-cart-{id}', 'CartController@addItem')->name('cart-add');
 Route::get('removeItem', 'CartController@removeItem')->name('cart-remove');
 Route::get('updateItem', 'CartController@updateItem')->name('cart-update');
-Route::get('checkout', 'HomeController@checkOut')->name('checkout')->middleware('checkout');
+
 Route::get('select-city', 'HomeController@getCountyFromCity')->name('selectCity');
 Route::get('select-county', 'HomeController@getTownshipFromCounty')->name('selectCounty');
 
 Route::get('product/{pro_id}-{product_slug}', 'HomeController@singleProduct')->name('product');
 Route::get('t{tra_id}-{trademark_slug}', 'HomeController@getProductOfTrademark')->name('trademark');
+Route::get('search', 'HomeController@searchProduct')->name('product.search');
 
+
+/**
+ * Authenticate Admin
+ */
 Route::post('admin-register', 'Admin\AdminRegisterController@register')->name('admin.register');
 Route::get('admin-login', 'Admin\AdminLoginController@showLoginForm')->name('admin.showLoginForm');
 Route::post('admin-login', 'Admin\AdminLoginController@login')->name('admin.login');
 Route::post('admin-logout', 'Admin\AdminLoginController@logout')->name('admin.logout');
 
-Route::get('auth/socialite', 'Auth\SocialiteController@redirectToProvider')->name('redirectToProvider');
-Route::get('auth/facebook/callback', 'Auth\SocialiteController@handleProviderFacebookCallback');
-Route::get('auth/google/callback', 'Auth\SocialiteController@handleProviderGoogleCallback');
-
+/**
+ * Route for Backend
+ */
 Route::group(['prefix' => 'backend', 'middleware' => 'auth:admin'], function () {
 
     Route::get('/', 'ManagementController@dashBoard')->name('backend');

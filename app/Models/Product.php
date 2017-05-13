@@ -50,6 +50,10 @@ class Product extends Model
         return $this->belongsTo('App\Models\Category');
     }
 
+    public function dbcart(){
+        return $this->belongsToMany(DbCart::class, 'cart_detail','product_id')->withPivot('row_id', 'qty');
+    }
+
     public function specs(){
         return $this->belongsToMany('App\Models\Specs')->withTimestamps()->withPivot('value');
     }
@@ -58,7 +62,6 @@ class Product extends Model
      * -----------------------------------------------------------------------------------------
      * for Backend
      */
-
 
     public function storeToPivotTable($array){
         $this->specs()->attach($array);
@@ -94,40 +97,39 @@ class Product extends Model
             ->find($id);
     }
 
+    public function getListId()
+    {
+        return $this->select('id')->get();
+    }
+
+
     /**
      * -----------------------------------------------------------------------------------------
      * for Frontend
      */
 
-
-    public function getAllStatus(){
+    public function activating(){
         return $this->where('status','=', ACTIVE)
             ->with([
                 'trademark',
                 'specs' => function($query){
                     $query->where('spotlight','=',ACTIVE)
-                        ->with('hardware')
-                        ->get();
+                        ->with('hardware');
                 }
             ])
             ->latest()
             ->get();
     }
-    public function getDetailStatus($id){
+    public function getDetailProductActivating($id){
         return $this->where('status', '=', ACTIVE)
             ->with([
                 'trademark',
                 'specs' => function($query){
-                $query->where('status','=',ACTIVE)
-                    ->with('hardware')
-                    ->get();
-            }])
+                    $query->where('status','=',ACTIVE)
+                        ->with('hardware')
+                        ->get();
+                }])
             ->find($id);
-    }
-
-    public function getListId()
-    {
-        return $this->select('id')->get();
     }
 
     public function getProductsOfTrademark($id){
@@ -135,6 +137,14 @@ class Product extends Model
             ['status', '=', ACTIVE],
             ['trademark_id', '=' , $id]
         ])->get();
+    }
+
+    public function searchProductActivating($key_search){
+        return $this->where([
+                ['active','=',1],
+                ['name','like','%'.$key_search.'%'],
+            ])
+            ->get();
     }
 
 }

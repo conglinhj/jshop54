@@ -11,14 +11,12 @@
                 <strong id="form-errors-email">{{ $errors->first('email') }}</strong>
             </span>
         @endif
-        <span class="help-block small">Your email</span>
     </div>
 
     <div class="form-group" id="password-div">
-        <label class="control-label" for="password">Password</label>
+        <label class="control-label" for="password">Mật khẩu</label>
         <input type="password" title="Please enter your password" placeholder="******" required value="" name="password" id="password" class="form-control">
         <span class="help-block"><strong id="form-errors-password"></strong></span>
-        <span class="help-block small">Your strong password</span>
     </div>
 
     <div class="form-group" id="login-errors">

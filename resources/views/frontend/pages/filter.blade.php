@@ -1,5 +1,5 @@
 @extends('frontend.master')
-@section('title','J.shop')
+
 @section('content')
     <div class="single-product-area">
         <div class="zigzag-bottom"></div>
@@ -10,7 +10,7 @@
                     <select id="select-trademark" name="trademark">
                         <option value="0">Tất cả</option>
                         @foreach($trademarks as $trademark)
-                        <option value="{{ $trademark['id'] }}">{{ $trademark['name'] }}</option>
+                            <option value="{{ $trademark['id'] }}">{{ $trademark['name'] }}</option>
                         @endforeach
                     </select>
 

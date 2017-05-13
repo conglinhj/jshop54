@@ -8,9 +8,16 @@
     width: 50%;
     margin-left: 16.9%;
 }
-.box-shadow {
+.box-item {
     padding: 0 4%;
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid #e1e1e1;
+    border-right: 1px solid #e1e1e1;
+    /*background-color: #f4f4f4;*/
+    /*box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.2);*/
+}
+.box-list-item {
+    border-top: 1px solid #e1e1e1;
+    border-left: 1px solid #e1e1e1;
 }
 .single-product p {
     color: #0d0d0d;
@@ -63,6 +70,13 @@
     -webkit-border-radius:0 !important;
     -moz-border-radius:0 !important;
     border-radius:0 !important;
+}
+.search-block {
+    margin-top: 40px;
+}
+.filter-product {
+    background: none repeat scroll 0 0 #e1e1e1;
+    padding: 10px;
 }
 #login-form-checkout, #register-form-checkout, .woocommerce-checkout {
     background: none repeat scroll 0 0 #f4f4f4;

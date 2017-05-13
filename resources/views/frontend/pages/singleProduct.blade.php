@@ -1,4 +1,5 @@
 @extends('frontend.master')
+@section('title',$product_details['name'])
 @section('content')
 
     <div class="single-product-area">

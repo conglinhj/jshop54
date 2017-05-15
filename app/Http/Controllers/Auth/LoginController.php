@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\MergeCart;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -42,6 +44,19 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('frontend.auth.login');
+    }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        $auth = User::where('email', $request->email)->first();
+        event(new MergeCart($auth));
+
+        return $this->authenticated($request, $this->guard()->user())
+            ?: redirect()->intended($this->redirectPath());
     }
 
     protected function sendFailedLoginResponse(Request $request)

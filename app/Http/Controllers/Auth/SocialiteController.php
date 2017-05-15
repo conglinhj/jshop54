@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\MergeCart;
 use Socialite;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -31,7 +32,8 @@ class SocialiteController extends Controller
 //        dd($user);
         $authUser = $this->findOrCreateFacebookUser($user);
         Auth::login($authUser, true);
-        return redirect('/home');
+        event(new MergeCart($authUser));
+        return redirect()->intended('/home');
     }
 
     /**
@@ -74,7 +76,8 @@ class SocialiteController extends Controller
         $authUser = $this->findOrCreateGoogleUser($user);
 //        dd($authUser);
         Auth::login($authUser, true);
-        return redirect('/home');
+        event(new MergeCart($authUser));
+        return redirect()->intended('/home');
     }
 
     public function findOrCreateGoogleUser($user){

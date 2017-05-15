@@ -13,8 +13,11 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\UserLogged' => [
+        'App\Events\MergeCart' => [
             'App\Listeners\SaveDbCartWhenLogged',
+        ],
+        'App\Events\SyncDbCartToSessionCart' => [
+            'App\Listeners\UpdateSessionCart',
         ],
     ];
 
@@ -27,8 +30,5 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        Event::listen('UserLogged', function () {
-
-        });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -9,23 +10,20 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Models\DbCart;
-use Gloudemans\Shoppingcart\Facades\Cart;
 
-class UserLogged
+class SyncDbCartToSessionCart
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $db_cart;
+    public $user;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(DbCart $dbCart, Cart $cart)
+    public function __construct(User $user)
     {
-        $this->db_cart = $dbCart;
-        $this->ss_cart = $cart;
+        $this->user = $user;
     }
 
     /**

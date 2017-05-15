@@ -3,9 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Models\DbCart;
-use App\Models\DbCartDetail;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,9 +15,10 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(DbCart $dbcart)
     {
-        //
+//        $cart = $dbcart->getCartOfUser(Auth::id());
+//        View::share(compact('cart'));
     }
 
     /**

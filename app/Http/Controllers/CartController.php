@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserLogged;
+use App\Events\MergeCart;
+use App\Events\SyncDbCartToSessionCart;
 use App\Models\Product;
 use App\Models\DbCart;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class CartController extends Controller
 {
@@ -17,7 +20,10 @@ class CartController extends Controller
         //
     }
 
-    public function cart(DbCart $dbcart){
+    public function cart(){
+//        $db_cart = self::CartOfUser(Auth::id());
+
+        if (Auth::check())self::eventSyncCart();
         return view('frontend.pages.cart');
     }
 
@@ -37,7 +43,6 @@ class CartController extends Controller
         if (Auth::check()){
             $this->saveToDbCart($cartItem->rowId);
         }
-
         return redirect(route('cart'));
     }
 
@@ -60,10 +65,9 @@ class CartController extends Controller
      * lưu giỏ hàng vào database
      */
     public function saveToDbCart($row_id) {
-        //lấy giỏ hàng của user đang dăng nhập, nếu không có thì tạo mới
+        //lấy giỏ hàng của user đang dăng nhập
         $dbcart = new DbCart;
-        $db_cart = $dbcart::firstOrCreate(['user_id' => Auth::id()]);
-        // $db_cart = DbCart::find(Auth::id());
+        $db_cart = self::CartOfUser(Auth::id());
         //cập nhật or tạo mới item có id = $pro_id vào bảng cart_detail
         $cart_item = Cart::get($row_id);
         //kiểm tra xem item đã có trong giỏ hàng chưa
@@ -79,16 +83,31 @@ class CartController extends Controller
     }
 
     /**
+     * lấy giỏ hàng của user có id = $id
+     */
+    public function CartOfUser($id){
+        $dbcart = new DbCart;
+        return $db_cart = $dbcart->getCartOfUser($id);
+    }
+
+    /**
      * xóa 1 sản phẩm trong giỏ hàng
      */
     public function removeItem(Request $request, DbCart $dbcart){
 
         if (Auth::check()){
             $cart_item = Cart::get($request->row_id);
-            $db_cart = $dbcart->getCartOfUser(Auth::id());
+            $db_cart = self::CartOfUser(Auth::id());
             $db_cart->destroyItemInDbCart($cart_item->id);
+            Cart::remove($request->row_id);
+        }else {
+            Cart::remove($request->row_id);
         }
-        Cart::remove($request->row_id);
+    }
+
+    public function eventSyncCart(){
+        $authCurrent = User::find(Auth::id());
+        event(new SyncDbCartToSessionCart($authCurrent));
     }
 
 }

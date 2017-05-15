@@ -16,11 +16,13 @@ class DbCart extends Model
     }
 
     public function product() {
-        return $this->belongsToMany(Product::class, 'cart_detail', 'cart_id')->withPivot('row_id', 'qty');
+        return $this->belongsToMany(Product::class, 'cart_detail', 'cart_id')->withPivot('row_id', 'qty')->withTimestamps();
     }
 
     public function getCartOfUser($user_id) {
-        return $this->where('user_id','=',$user_id)->first();
+        return $this->where('user_id','=',$user_id)
+            ->with('product')
+            ->first();
     }
 
     public function destroyItemInDbCart($pro_id){
@@ -33,7 +35,9 @@ class DbCart extends Model
                         ['cart_id','=', $cart_id],
                         ['product_id','=', $pro_id],
                     ]);
-        })->first();
+            })
+            ->with('product')
+            ->first();
     }
 
     public function attachToPivot($pro_id, $row_id, $qty){

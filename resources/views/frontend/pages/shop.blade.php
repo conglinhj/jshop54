@@ -1,33 +1,55 @@
 @extends('frontend.master')
-@section('title','J.shop')
+@section('title','Shop')
 @section('content')
     <div class="single-product-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
+
             <div class="filter-product row">
-                <form method="GET" id="filter-form" data-url="{{ route('shop') }}">
-                    <label for="select-trademark">Tìm theo hãng</label>
-                    <select id="select-trademark" name="trademark">
-                        <option value="0">Tất cả</option>
-                        @foreach($trademarks as $trademark)
-                        <option value="{{ $trademark['id'] }}">{{ $trademark['name'] }}</option>
-                        @endforeach
-                    </select>
+                <form method="GET" id="filter-form" data-url="{{ route('shop') }}" class="form-inline">
+                    <div class="row">
+                        <div class="col-md-1 left">
+                            <label style="color: darkred;margin-top: 5px">Tìm theo: </label>
+                        </div>
 
-                    <label for="select-price">Tìm theo mức giá</label>
-                    <select name="price-filter" id="select-price">
-                        <option value="">Tất cả</option>
-                        <option value="">Dưới 10 triệu</option>
-                        <option value="">10 đến 12 triệu</option>
-                        <option value="">12 đến 15 triệu</option>
-                        <option value="">trên 15 triệu</option>
-                    </select>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label for="select-trademark"> Hãng </label>
+                                <select id="select-trademark" name="trademark" class="form-control">
+                                    <option value="0">Tất cả</option>
+                                    @foreach($trademarks as $trademark)
+                                        <option value="{{ $trademark['id'] }}" {{ (Request::fullUrl() == Request::url().'?trademark='.$trademark['id']) ? 'selected':'' }} >{{ $trademark['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
+                            <div class="form-group">
+                                <label for="select-price">&nbsp&nbsp&nbsp Mức giá</label>
+                                <select name="price" id="select-price" class="form-control">
+                                    <option value="0" {{ (Request::fullUrl() == Request::url().'?price=0') ? 'selected':'' }}> Tất cả </option>
+                                    <option value="1" {{ (Request::fullUrl() == Request::url().'?price=1') ? 'selected':'' }}> < 10 triệu </option>
+                                    <option value="2" {{ (Request::fullUrl() == Request::url().'?price=2') ? 'selected':'' }}> 10 - 15 triệu </option>
+                                    <option value="3" {{ (Request::fullUrl() == Request::url().'?price=3') ? 'selected':'' }}> 16 - 20 triệu </option>
+                                    <option value="4" {{ (Request::fullUrl() == Request::url().'?price=4') ? 'selected':'' }}> > 20 triệu </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-2 right" style="text-align: right;">
+                            @if(Request::is('shop*'))
+                                <label style="color: darkred;margin-top: 6px">{{ count($products) }} sản phẩm.</label>
+                            @endif
+                        </div>
+                    </div>
                 </form>
                 @push('script_content')
                 <script>
                     $(document).ready( function () {
-
                         $.ajaxSetup({
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -37,8 +59,8 @@
                         var filter_form = $('#filter-form');
                         var data_filter_form = filter_form.serialize();
 
-                        $('#select-trademark').on('change', function () {
-//                            alert($('#filter-form').data('url'));
+                        var select_trademark = $('#select-trademark');
+                        select_trademark.on('change', function () {
                             $.ajax({
                                 type : 'GET',
                                 url : filter_form.data('url'),
@@ -50,13 +72,37 @@
                                     $('.loading-block').hide();
                                 },
                                 success : function () {
-                                    location.reload();
+                                    location.href = 'http://localhost/jshop54/public/shop?trademark='+select_trademark.val();
+                                    select_trademark.val(2).prop('selected', true);
                                 },
                                 error : function () {
 
                                 }
                             });
-                        })
+                        });
+
+                        var select_price = $('#select-price');
+                        select_price.on('change', function () {
+                            var value = select_price.val();
+                            $.ajax({
+                                type : 'GET',
+                                url : filter_form.data('url'),
+                                data : data_filter_form,
+                                beforeSend : function () {
+                                    $('.loading-block').show();
+                                },
+                                complete : function () {
+                                    $('.loading-block').hide();
+                                },
+                                success : function () {
+                                    location.href = 'http://localhost/jshop54/public/shop?price='+value;
+                                },
+                                error : function () {
+
+                                }
+                            });
+                        });
+
                     })
                 </script>
                 @endpush
@@ -67,7 +113,7 @@
                     <div class="col-md-3 col-sm-3" style="padding: 0px;">
                         <div class="single-product box-item">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12" style="height: 100px; overflow: hidden">
                                     <h2><a href="{{ route('product',[ 'pro_id' => $product['id'], 'product_slug' => str_slug($product['name']) ]) }}">{{ $product['name'] }}</a></h2>
                                     <div class="product-carousel-price">
                                         <ins>{{ number_format($product['price'],0,",",".") }}₫</ins>
@@ -75,10 +121,10 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="product-f-image">
-                                        <a href="{{ route('product',[ 'pro_id' => $product['id'], 'product_slug' => str_slug($product['name']) ]) }}"><img src="{{ $product['image'] }}" ></a>
+                                        <a href="{{ route('product',[ 'pro_id' => $product['id'], 'product_slug' => str_slug($product['name']) ]) }}"><img  src="{{ asset($product['image']) }}" ></a>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-12 info-specs-product">
                                     @php
                                         $hw_ar = array();
                                         foreach($product->specs as $specs) {
@@ -97,6 +143,10 @@
                                         </p>
                                     @endforeach
                                 </div>
+                            </div>
+                            <div class="btn-add-cart">
+                                <a href="{{ route('cart-add',['id' => $product['id']]) }}" class="add-to-cart-link" title="Thêm vào giỏ hàng"><i class="fa fa-shopping-cart fa-2x"></i></a>
+                                <a class="view-details-link" title="Yêu thích"><i class="fa fa-heart fa-2x"></i></a>
                             </div>
                         </div>
                     </div>

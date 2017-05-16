@@ -1,4 +1,5 @@
 @extends('backend.master')
+@section('title_admin','Administrator')
 @section('content')
     <div class="row" style="margin-bottom: 390px;">
         <div class="col-lg-3 col-md-3 portlets" style="text-align: center;">

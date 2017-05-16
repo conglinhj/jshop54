@@ -165,6 +165,8 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -179,6 +181,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
 
     ],
 
@@ -231,6 +234,9 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

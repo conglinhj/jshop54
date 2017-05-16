@@ -1,4 +1,5 @@
 @extends('backend.master')
+@section('title_admin','Product')
 @section('content')
     <!-- Page Heading Start -->
     <div class="page-heading">
@@ -41,12 +42,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Ảnh</label>
-                                    <div class="row">
-                                        <div class="col-md-3"><input id="upload_images" class="btn btn-default" type="button" value='Select file'></div>
-                                        <div class="col-md-9">
-                                            <input id="output_images" name="image" type="text" class="form-control">
-                                        </div>
+                                    <div class="input-group">
+                                       <span class="input-group-btn">
+                                         <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                                           <i class="fa fa-picture-o"></i> Choose
+                                         </a>
+                                       </span>
+                                        <input id="thumbnail" class="form-control" type="text" name="image">
                                     </div>
+                                    <img id="holder" style="margin-top:15px;max-height:100px;">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -62,7 +66,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Giới thiệu về sản phẩm</label>
-                            <textarea name="intro" class="summernote" rows="5"></textarea>
+                            <textarea name="intro" id="introduction" class="introduction" rows="5"></textarea>
                         </div>
 
                         <h3><strong>Thông số kỹ thuật</strong></h3>
@@ -92,38 +96,26 @@
 @push('js_content')
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.summernote').summernote({
-                height: 150,
-            });
-
-            var button = document.getElementById( 'upload_images' );
-            button.onclick = function() {
-                selectFileWithCKFinder( 'output_images' );
-            };
-            function selectFileWithCKFinder( elementId ) {
-                CKFinder.modal( {
-                    chooseFiles: true,
-                    width: 800,
-                    height: 600,
-                    onInit: function( finder ) {
-                        finder.on( 'files:choose', function( evt ) {
-                            var file = evt.data.files.first();
-                            var output = document.getElementById( elementId );
-                            output.value = file.getUrl();
-                        } );
-
-                        finder.on( 'file:choose:resizedImage', function( evt ) {
-                            var output = document.getElementById( elementId );
-                            output.value = evt.data.resizedUrl;
-                        } );
-                    }
-                } );
-            }
+            // for upload image
+            var domain = "/jshop54/public/laravel-filemanager";
+            $('#lfm').filemanager('image', {prefix: domain});
 
         });
     </script>
     <script src="{{ asset('backend_assets/libs/bootstrap-select/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('backend_assets/libs/bootstrap-inputmask/inputmask.js') }}"></script>
-    <script src="{{ asset('backend_assets/libs/summernote/summernote.js') }}"></script>
-    <script src="{{ asset('backend_assets/js/pages/forms.js') }}"></script>
+    <script src="{{ asset("vendor/laravel-filemanager/js/lfm.js") }}"></script>
+    <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+    <script>
+        var options = {
+            filebrowserImageBrowseUrl: /*location.hostname+*/'http://localhost/jshop54/public/laravel-filemanager?type=Images',
+            filebrowserImageUploadUrl: /*location.hostname+*/'http://localhost/jshop54/public/laravel-filemanager/upload?type=Images&_token=',
+            filebrowserBrowseUrl: /*location.hostname+*/'http://localhost/jshop54/public/laravel-filemanager?type=Files',
+            filebrowserUploadUrl: /*location.hostname+*/'http://localhost/jshop54/public/laravel-filemanager/upload?type=Files&_token='
+        };
+    </script>
+    <script>
+        CKEDITOR.replace('introduction', options);
+    </script>
+
 @endpush

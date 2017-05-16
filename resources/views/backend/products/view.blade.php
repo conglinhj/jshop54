@@ -1,24 +1,23 @@
 @extends('backend.master')
+@section('title_admin',$details_product['name'])
 @section('content')
     <!-- Page Heading Start -->
     <div class="page-heading">
         <h3><a href="{{ route('backend.products.list') }}"><i class="icon-back"></i>back to list</a></h3>
-        <h1><i class='fa fa-table'></i> detail Products : {{ $details_product['name'] }}</h1>
-        @if(session('updated_message'))
-            <div class="alert alert-info alert-dismissable col-md-6">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                {{ session('updated_message') }}
-            </div>
-        @elseif(session('created_message'))
-            <div class="alert alert-success alert-dismissable col-md-6">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                {{ session('created_message') }}
-            </div>
-        @endif
+        <h1><i class='fa fa-table'></i> detail Products :<img width="200" src="{{ asset($details_product['image']) }}" alt="laptop"> {{ $details_product['name'] }}</h1>
     </div>
+    @if(session('updated_message'))
+        <div class="alert alert-info alert-dismissable col-md-8 col-md-offset-2">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{ session('updated_message') }}
+        </div>
+    @elseif(session('created_message'))
+        <div class="alert alert-success alert-dismissable col-md-8 col-md-offset-2">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{ session('created_message') }}
+        </div>
+    @endif
     <!-- Page Heading End-->
-
-    <img src="{{ $details_product['image'] }}" alt="laptop">
     <div class="row">
         <div class="col-md-12">
             <div class="widget">
@@ -50,7 +49,7 @@
                         <table data-sortable class="table table-hover table-striped">
                             <tbody>
                             <tr>
-                                <td width="150" ><strong>Thương hiệu</strong></td>
+                                <td width="200" ><strong>Thương hiệu</strong></td>
                                 <td>{{ $details_product->trademark['name'] }}</td>
                             </tr>
                             <tr>
@@ -86,33 +85,33 @@
             </div>
         </div>
         @foreach($hardwares as $key => $hardware)
-        <div class="col-md-6">
-            <div class="widget">
-                <div class="widget-header">
-                    <h2><strong>{{ $hardware['name'] }}</strong></h2>
-                    <div class="additional-btn">
-                        <a href="#" class="hidden reload"><i class="icon-ccw-1"></i></a>
-                        <a href="#" class="widget-toggle"><i class="icon-down-open-2"></i></a>
+            <div class="col-md-6">
+                <div class="widget">
+                    <div class="widget-header">
+                        <h2><strong>{{ $hardware['name'] }}</strong></h2>
+                        <div class="additional-btn">
+                            <a href="#" class="hidden reload"><i class="icon-ccw-1"></i></a>
+                            <a href="#" class="widget-toggle"><i class="icon-down-open-2"></i></a>
+                        </div>
                     </div>
-                </div>
-                <div class="widget-content">
-                    <div class="table-responsive">
-                        <table id="datatables-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                            <tbody>
+                    <div class="widget-content">
+                        <div class="table-responsive">
+                            <table id="datatables-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <tbody>
                                 @foreach($details_product->specs as $specs)
                                     @if($hardware['id'] == $specs['hardware_id'])
                                         <tr>
                                             <td style="width: 34%;">{{ $specs['name'] }}</td>
-                                            <td>{{ $specs->pivot->value }}</td>
+                                            <td>@if($specs->pivot->value != ""){{ $specs->pivot->value }}@else chưa cập nhật @endif</td>
                                         </tr>
                                     @endif
                                 @endforeach
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         @endforeach
     </div>
 
@@ -124,14 +123,14 @@
     $(document).ready(function () {
         $showmore = $('#show_more');
         $showmore.on('click', function () {
-           if ($showmore.text() == 'Show more...'){
-               $('.introduction').css('height', 'auto');
-               $showmore.text('hide...');
-           } else if ($showmore.text() == 'hide...'){
-               $('.introduction').css('height', '200px');
-               $showmore.text('Show more...');
-           }
-       });
+            if ($showmore.text() === 'Show more...'){
+                $('.introduction').css('height', 'auto');
+                $showmore.text('hide...');
+            } else if ($showmore.text() === 'hide...'){
+                $('.introduction').css('height', '200px');
+                $showmore.text('Show more...');
+            }
+        });
     });
 </script>
 @endpush

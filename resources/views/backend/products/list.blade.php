@@ -1,4 +1,5 @@
 @extends('backend.master')
+@section('title_admin','Product')
 @push('meta_content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
@@ -70,7 +71,7 @@
                             @foreach($list_products as $key => $product)
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td><img width="50" src="{{ $product['image'] }}"></td>
+                                <td><img width="50" src="{{ asset($product['image']) }}"></td>
                                 <td><strong>{{ $product['name'] }}</strong></td>
                                 <td>{{ $product->trademark['name'] }}</td>
                                 <td>{{ $product->category['name'] }}</td>

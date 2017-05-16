@@ -35,7 +35,7 @@
 <body>
 
     @include('frontend.includes.header-area')
-    @include('frontend.includes.site-branding-area')
+    {{--@include('frontend.includes.site-branding-area')--}}
     @include('frontend.includes.mainmenu-area')
 
     @yield('content')
@@ -43,7 +43,7 @@
     @include('frontend.includes.bottom')
 
     <div class="loading-block">
-        <img width="64" src="{{ asset('images/loading.gif') }}" alt="loading....">
+        <img width="128" src="{{ asset('images/loading4.gif') }}" alt="loading....">
     </div>
     <!-- Latest jQuery form server -->
     <script src="{{ asset('frontend_assets/js/jquery.min.js') }}"></script>

@@ -35,7 +35,7 @@
                                             <td class="product-thumbnail product-name">
                                                 <a>
                                                     {{ $item->name }}<br>
-                                                    <img width="200" height="200" alt="poster_1_up" class="shop_thumbnail" src="{{ $item->options->img }}">
+                                                    <img width="200" height="200" alt="poster_1_up" class="shop_thumbnail" src="{{ asset($item->options->img) }}">
                                                 </a>
                                             </td>
                                             <td class="product-price">

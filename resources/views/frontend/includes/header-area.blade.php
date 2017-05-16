@@ -1,20 +1,27 @@
 <div class="header-area">
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
-                <div class="user-menu">
-                    <ul>
 
-                    </ul>
-                </div>
+            <div class="col-sm-2" style="text-align: center">
+                <h1><a href="{{ route('home') }}"><img src="{{ asset('img/logo.png') }}"></a></h1>
+            </div>
+            <div class="col-sm-6 search-block">
+                <form action="{{ route('shop' ) }}" method="GET">
+                    <div class="input-group input-group-lg">
+                        <input type="text" class="form-control" name="key" placeholder="Tên sản phẩm bạn muốn tìm..." style="font-size: 14px; font-family: Roboto Condensed,sans-serif;" required>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </form>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-sm-4 search-block">
                 <div class="header-right">
                     <ul class="list-unstyled list-inline">
 
                         <li class="dropdown dropdown-small">
-                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">language :</span><span class="value">English </span><b class="caret"></b></a>
+                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="value">English </span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Vietnam</a></li>
                                 <li><a href="#">English</a></li>

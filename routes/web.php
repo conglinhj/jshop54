@@ -37,7 +37,6 @@ Route::get('select-county', 'HomeController@getTownshipFromCounty')->name('selec
 
 Route::get('product/{pro_id}-{product_slug}', 'HomeController@singleProduct')->name('product');
 Route::get('t{tra_id}-{trademark_slug}', 'HomeController@getProductOfTrademark')->name('trademark');
-Route::get('search', 'HomeController@searchProduct')->name('product.search');
 
 
 /**
@@ -98,4 +97,6 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth:admin'], function () 
         Route::post('change-spotlight', 'SpecsController@changeSpotlight')->name('backend.specs.changeSpotlight');
     });
 
+
 });
+

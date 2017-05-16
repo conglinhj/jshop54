@@ -1,8 +1,10 @@
 @extends('backend.master')
+@section('title_admin','Product')
 @section('content')
     <!-- Page Heading Start -->
     <div class="page-heading">
-        <h1><i class='fa fa-plus-circle'></i> Edit a Product</h1>
+        <h3><a href="{{ route('backend.products.list') }}"><i class="icon-back"></i>back to list</a></h3>
+        <h1><i class='fa fa-table'></i> edit Products :<img width="200" src="{{ asset($details_product['image']) }}" alt="laptop"> {{ $details_product['name'] }}</h1>
     </div>
     <!-- Page Heading End-->
     <div class="row">
@@ -43,12 +45,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Ảnh</label>
-                                    <div class="row">
-                                        <div class="col-md-3"><input id="upload_images" class="btn btn-default" type="button" value='Select file'></div>
-                                        <div class="col-md-9">
-                                            <input id="output_images" value="{{ $details_product['image'] }}" name="image" type="text" class="form-control">
-                                        </div>
+                                    <div class="input-group">
+                                       <span class="input-group-btn">
+                                         <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                                           <i class="fa fa-picture-o"></i> Choose
+                                         </a>
+                                       </span>
+                                        <input id="thumbnail" class="form-control" value="{{ asset($details_product['image']) }}" type="text" name="image">
                                     </div>
+                                    <img id="holder" style="margin-top:15px;max-height:100px;" src="{{ asset($details_product['image']) }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -65,23 +70,31 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Giới thiệu về sản phẩm</label>
-                            <textarea name="intro" class="summernote" rows="5">{{ $details_product['intro'] }}</textarea>
+                            <textarea name="intro" id="introduction" class="introduction" rows="5">{{ $details_product['intro'] }}</textarea>
                         </div>
 
                         <h3><strong>Thông số kỹ thuật</strong></h3>
-                        <div class="row">
+                        <div class="row form-inline">
                             @foreach($hardwares as $hardware)
-                                <div class="col-md-6">
-                                    <h4 style="color: #791C1A;"><strong>{{ $hardware['name'] }} :</strong></h4>
+                                <div class="col-md-6" style="margin-bottom: 30px;">
+                                    <h4 style="color: #791C1A; background-color: #cecece"><strong>{{ $hardware['name'] }} :</strong></h4>
+                                    <table style="width: 100%">
                                     @foreach($details_product->specs as $specs)
                                         @if($specs['hardware_id'] == $hardware['id'])
                                             <div class="form-group">
-                                                <label for="input-text" class="control-label">{{ $specs['name'] }}</label>
-                                                <input name="value[]" value="{{ $specs->pivot['value'] }}" type="text" class="form-control">
-                                                <input name="specs_id[]" type="hidden" value="{{ $specs['id'] }}">
+                                                <tr>
+                                                    <td class="col-md-4" style="text-align: right">
+                                                        <label for="input-text" class="control-label">{{ $specs['name'] }}</label>
+                                                    </td>
+                                                    <td>
+                                                        <input style="width: 100%;" name="value[]" value="{{ $specs->pivot['value'] }}" type="text" class="form-control">
+                                                        <input name="specs_id[]" type="hidden" value="{{ $specs['id'] }}">
+                                                    </td>
+                                                </tr>
                                             </div>
                                         @endif
                                     @endforeach
+                                    </table>
                                 </div>
                             @endforeach
                         </div>
@@ -95,38 +108,26 @@
 @push('js_content')
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.summernote').summernote({
-                height: 150,
-            });
-
-            var button = document.getElementById( 'upload_images' );
-            button.onclick = function() {
-                selectFileWithCKFinder( 'output_images' );
-            };
-            function selectFileWithCKFinder( elementId ) {
-                CKFinder.modal( {
-                    chooseFiles: true,
-                    width: 800,
-                    height: 600,
-                    onInit: function( finder ) {
-                        finder.on( 'files:choose', function( evt ) {
-                            var file = evt.data.files.first();
-                            var output = document.getElementById( elementId );
-                            output.value = file.getUrl();
-                        } );
-
-                        finder.on( 'file:choose:resizedImage', function( evt ) {
-                            var output = document.getElementById( elementId );
-                            output.value = evt.data.resizedUrl;
-                        } );
-                    }
-                } );
-            }
+            var domain = "/jshop54/public/laravel-filemanager";
+            $('#lfm').filemanager('image', {prefix: domain});
 
         });
     </script>
     <script src="{{ asset('backend_assets/libs/bootstrap-select/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('backend_assets/libs/bootstrap-inputmask/inputmask.js') }}"></script>
-    <script src="{{ asset('backend_assets/libs/summernote/summernote.js') }}"></script>
-    <script src="{{ asset('backend_assets/js/pages/forms.js') }}"></script>
+    {{--<script src="{{ asset('backend_assets/libs/summernote/summernote.js') }}"></script>--}}
+    {{--<script src="{{ asset('backend_assets/js/pages/forms.js') }}"></script>--}}
+    <script src="{{ asset("vendor/laravel-filemanager/js/lfm.js") }}"></script>
+    <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+    <script>
+        var options = {
+            filebrowserImageBrowseUrl: /*location.hostname+*/'http://localhost/jshop54/public/laravel-filemanager?type=Images',
+            filebrowserImageUploadUrl: /*location.hostname+*/'http://localhost/jshop54/public/laravel-filemanager/upload?type=Images&_token=',
+            filebrowserBrowseUrl: /*location.hostname+*/'http://localhost/jshop54/public/laravel-filemanager?type=Files',
+            filebrowserUploadUrl: /*location.hostname+*/'http://localhost/jshop54/public/laravel-filemanager/upload?type=Files&_token='
+        };
+    </script>
+    <script>
+        CKEDITOR.replace('introduction', options);
+    </script>
 @endpush

@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\MergeCart;
 use App\Events\SyncDbCartToSessionCart;
 use App\Models\Product;
 use App\Models\DbCart;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
 class CartController extends Controller
@@ -21,8 +19,6 @@ class CartController extends Controller
     }
 
     public function cart(){
-//        $db_cart = self::CartOfUser(Auth::id());
-
         if (Auth::check())self::eventSyncCart();
         return view('frontend.pages.cart');
     }

@@ -1,4 +1,5 @@
 @extends('backend.master')
+@section('title_admin','Hardware')
 @section('content')
     <!-- Page Heading Start -->
     <div class="page-heading">

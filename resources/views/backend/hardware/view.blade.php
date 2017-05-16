@@ -1,5 +1,5 @@
 @extends('backend.master')
-
+@section('title_admin','view info Hardware')
 @push('meta_content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush

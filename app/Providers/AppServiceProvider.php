@@ -17,8 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(DbCart $dbcart)
     {
-//        $cart = $dbcart->getCartOfUser(Auth::id());
-//        View::share(compact('cart'));
+        //
     }
 
     /**

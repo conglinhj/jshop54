@@ -48,7 +48,7 @@ class TrademarksController extends Controller
     {
         $this->validate($request,[
             'name' => 'required|max:255|unique:trademarks',
-            'brand' => 'mimes:jpeg,png,jpg',
+//            'brand' => 'mimes:jpeg,png,jpg',
         ]);
         $trademark = Trademark::create($request->all());
         return redirect(route('backend.trademarks.view',['id' => $trademark['id']]))->with('created_message','Created !');

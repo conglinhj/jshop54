@@ -1,5 +1,5 @@
 @extends('frontend.master')
-@section('title','J.shop')
+@section('title','Shop')
 @section('content')
     <div class="slider-area">
         <!-- Slider -->

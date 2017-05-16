@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Trademark;
 use App\Models\Hardware;
-use App\Models\Specs;
-use App\Models\Administration;
 use App\Models\City;
 use App\Models\County;
 use App\Models\Township;
@@ -44,13 +41,19 @@ class HomeController extends Controller
      */
     public function shop(Product $product, Request $request)
     {
-        if (isset($request->trademark)){
-            $products = $product->getProductsOfTrademark($request->trademark);
-            if ($request->ajax()){
-                return view('frontend.pages.filter',compact('products'));
-            }
+//        dd($request);
+        $products = $product->isActive();
+        if ($request->key) {
+            $products = self::searchProduct($request);
         }
-        $products = $product->activating();
+        if ($request->trademark){
+            $products = $product->getProductsOfTrademark($request->trademark);
+        }
+        if ($request->price){
+            $products = $product->getProductWithPrice($request->price);
+        }
+
+
         return view('frontend.pages.shop',compact('products'));
     }
 
@@ -63,20 +66,8 @@ class HomeController extends Controller
     public function singleProduct(Request $request, Hardware $hardware, Product $product)
     {
         $hardwares = $hardware->getAll();
-        $product_details = $product->getDetailProductActivating($request->pro_id);
+        $product_details = $product->getDetailProductIsActive($request->pro_id);
         return view('frontend.pages.singleProduct',compact('hardwares', 'product_details'));
-    }
-
-    /**
-     * search product name
-     */
-    public function searchProduct(Product $product, Request $request) {
-        $this->validate($request, [
-            'key_search' => 'required',
-        ]);
-//        dd($request->key_search);
-        $result_product = $product->searchProductActivating($request->key_search);
-        return view('frontend.pages.result-search', compact('result_product'));
     }
 
     /**
@@ -87,6 +78,7 @@ class HomeController extends Controller
         return view('frontend.pages.trademark-product', compact('products'));
     }
 
+
     /**
      * from ajax
      * get County and Township
@@ -95,10 +87,20 @@ class HomeController extends Controller
         $counties = $county->getListFromCity($request->city_id);
         return response()->json( compact('counties') );
     }
-
     public function getTownshipFromCounty(Request $request, Township $township){
         $townships = $township->getListFromCounty($request->county_id);
         return response()->json( compact('townships') );
+    }
+
+    /**
+     * search product name
+     */
+    public function searchProduct(Request $request) {
+        $this->validate($request, [
+            'key' => 'required',
+        ]);
+        $product = new Product;
+        return $products = $product->searchProductIsActive($request->key);
     }
 
 }

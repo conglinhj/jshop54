@@ -19,7 +19,7 @@
                             <div class="col-md-7">
                                 <div class="product-images">
                                     <div class="product-main-img">
-                                        <img src="{{ $product_details['image'] }}" alt="">
+                                        <img src="{{ asset($product_details['image']) }}" alt="">
                                     </div>
 
                                     <div class="product-gallery">

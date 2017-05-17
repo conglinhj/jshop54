@@ -20,4 +20,8 @@ class Township extends Model
         return $this->where('county_id','=',$id)->get();
     }
 
+    public function order() {
+        return $this->hasMany(Order::class);
+    }
+
 }

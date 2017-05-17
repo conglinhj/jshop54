@@ -45,6 +45,10 @@ class DbCart extends Model
         return $this->product()->detach($pro_id, true);
     }
 
+    public function destroyAllItemOfDbCart(){
+        return $this->product()->detach();
+    }
+
     public function attachToPivot($pro_id, $row_id, $qty){
         return $this->product()->attach($pro_id, ['row_id' => $row_id , 'qty' => $qty], true);
     }

@@ -1,129 +1,102 @@
 @extends('frontend.master')
-
+@section('title', 'Thanh toán ')
 @section('content')
 
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="row">
-
-            <div class="col-md-6">
-                <div class="product-content-right">
-                    @if(!Auth::check())
-                    <h3 class="order_review_heading">Thông tin vận chuyển</h3>
-                    <div class="woocommerce">
-
-                        <div id="login-form-checkout">
-                            <p>Đăng nhập trước khi thanh toán</p>
-                            @include('frontend.includes.login-form')
-                        </div>
-                        <div class="woocommerce-info">Have a coupon?
-                            <a class="showcoupon" data-toggle="collapse" href="#coupon-collapse-wrap" aria-expanded="false" aria-controls="coupon-collapse-wrap">Click here to enter your code</a>
-                        </div>
-
-                        <form id="coupon-collapse-wrap" method="post" class="checkout_coupon collapse">
-                            <p class="form-row form-row-first">
-                                <input type="text" value="" id="coupon_code" placeholder="Coupon code" class="input-text" name="coupon_code">
-                            </p>
-                            <p class="form-row form-row-last">
-                                <input type="submit" value="Apply Coupon" name="apply_coupon" class="button">
-                            </p>
-                            <div class="clear"></div>
-                        </form>
-
-                    </div>
-                    @else
-                    <h3 class="order_review_heading">Địa chỉ giao hàng</h3>
-                    <div class="woocommerce">
-                        <form enctype="multipart/form-data" action="#" class="checkout" method="post" name="checkout">
-
-                            <div id="customer_details" class="col2-set">
+            <form enctype="multipart/form-data" action="{{ route('checkout.store') }}" class="checkout" method="post">
+                {{ csrf_field() }}
+                <input type="hidden" value="{{ Auth::id() }}" name="user_id">
+                <div class="col-md-5">
+                    <div class="product-content-right">
+                        <h3 class="order_review_heading">Địa chỉ giao hàng của quý khách</h3>
+                        <div class="woocommerce">
+                            <div class="col2-set">
                                 <div class="col-1">
                                     <div class="woocommerce-billing-fields">
-
-                                        <div id="billing_first_name_field" class="form-group">
-                                            <label  class="control-label" for="billing_first_name">Họ Tên người nhận<abbr title="required" class="required">*</abbr>
-                                            </label>
-                                            <input type="text" class="form-control input-text"  placeholder="" id="billing_first_name" name="billing_first_name">
+                                        <div id="billing_first_name_field" class="form-group {{ $errors->has('customer_name') ? ' has-error' : '' }}">
+                                            <label  class="control-label" for="billing_first_name">Họ Tên<abbr title="required" class="required">*</abbr></label>
+                                            <input type="text" value="{{ old('customer_name') }}" class="form-control input-text"  placeholder="" id="billing_first_name" name="customer_name" required>
+                                            @if ($errors->has('customer_name'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('customer_name') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
-
-                                        <div id="billing_city_field" class="form-row form-row-wide address-field update_totals_on_change validate-required woocommerce-validated">
-                                            <label class="" for="billing_country">Tỉnh/Thành phố<abbr title="required" class="required">*</abbr>
+                                        <div id="billing_city_field" class="form-group {{ $errors->has('city_id') ? ' has-error' : '' }}">
+                                            <label class="control-label" for="billing_country">Tỉnh/Thành phố<abbr title="required" class="required">*</abbr>
                                             </label>
-                                            <select data-url="{{ route('selectCity') }}" class="country_to_state country_select" id="billing_city" name="billing_city">
+                                            <select data-url="{{ route('selectCity') }}" class="form-control" id="billing_city" name="city_id">
                                                 <option value="0">Chọn Tỉnh/Thành phố</option>
                                                 @foreach( $cities as $city)
                                                     <option value="{{ $city['id'] }}">{{ $city['name'] }}</option>
                                                 @endforeach
                                             </select>
+                                            @if ($errors->has('city_id'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('city_id') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
-
-                                        <div id="billing_county_field" class="form-row form-row-wide address-field update_totals_on_change validate-required woocommerce-validated">
-                                            <label class="" for="billing_country">Quận/Huyện<abbr title="required" class="required">*</abbr>
+                                        <div id="billing_county_field" class="form-group {{ $errors->has('county_id') ? ' has-error' : '' }}">
+                                            <label class="control-label" for="billing_country">Quận/Huyện<abbr title="required" class="required">*</abbr>
                                             </label>
-                                            <select data-url="{{ route('selectCounty') }}" class="country_to_state country_select" id="billing_county" name="billing_county">
+                                            <select data-url="{{ route('selectCounty') }}" class="form-control" id="billing_county" name="county_id">
                                                 <option value="0">Chọn Quận/Huyện</option>
                                             </select>
+                                            @if ($errors->has('county_id'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('county_id') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
-
-                                        <div id="billing_township_field" class="form-row form-row-wide address-field update_totals_on_change validate-required woocommerce-validated">
-                                            <label class="" for="billing_country">Phường, xã<abbr title="required" class="required">*</abbr>
+                                        <div id="billing_township_field" class="form-group {{ $errors->has('township_id') ? ' has-error' : '' }}">
+                                            <label class="control-label" for="billing_country">Phường, xã<abbr title="required" class="required">*</abbr>
                                             </label>
-                                            <select class="country_to_state country_select" id="billing_township" name="billing_township">
+                                            <select class="form-control" id="billing_township" name="township_id">
                                                 <option value="0">Chọn Phường, xã</option>
                                             </select>
+                                            @if ($errors->has('township_id'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('township_id') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
-
-                                        <div id="billing_address_1_field" class="form-row form-row-wide address-field validate-required">
-                                            <label class="" for="billing_address_1">Địa chỉ nhà<abbr title="required" class="required">*</abbr>
+                                        <div id="billing_address_1_field" class="form-group {{ $errors->has('address') ? ' has-error' : '' }}">
+                                            <label class="control-label" for="billing_address_1">Địa chỉ nhà<abbr title="required" class="required">*</abbr>
                                             </label>
-                                            <input type="text" value="" placeholder="tên đường, số nhà..." id="billing_address_1" name="billing_address_1" class="input-text ">
+                                            <input type="text" value="{{ old('address') }}" placeholder="tên đường, số nhà..." id="billing_address_1" name="address" class="form-control input-text" required>
+                                            @if ($errors->has('address'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('address') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
-
-                                        <div class="clear"></div>
-
-                                        <div id="billing_email_field" class="form-row form-row-first validate-required validate-email">
-                                            <label class="" for="billing_email">Email<abbr title="required" class="required">*</abbr>
+                                        <div id="billing_phone_field" class="form-group {{ $errors->has('phone') ? ' has-error' : '' }}">
+                                            <label class="control-label" for="billing_phone">Số điện thoại <abbr title="required" class="required">*</abbr>
                                             </label>
-                                            <input type="text" value="" placeholder="" id="billing_email" name="billing_email" class="input-text ">
+                                            <input type="text" placeholder="số điện thoại" id="billing_phone" name="phone" class="form-control input-text " required>
+                                            @if ($errors->has('phone'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('phone') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
-
-                                        <div id="billing_phone_field" class="form-row form-row-last validate-required validate-phone">
-                                            <label class="" for="billing_phone">Số điện thoại <abbr title="required" class="required">*</abbr>
-                                            </label>
-                                            <input type="text" value="" placeholder="" id="billing_phone" name="billing_phone" class="input-text ">
+                                        <div id="order_comments_field" class="form-group">
+                                            <label class="control-label" for="order_comments">Ghi chú <abbr title="required" class="required">*</abbr></label>
+                                            <textarea cols="10" rows="2" placeholder="" id="order_comments" class="input-text " name="note" style="width: 100%">{{ old('note') }}</textarea>
                                         </div>
-                                        <div class="clear"></div>
-                                        <div id="order_comments_field" class="form-row notes">
-                                            <label class="" for="order_comments">Ghi chú</label>
-                                            <textarea cols="5" rows="2" placeholder="Notes about your order, e.g. special notes for delivery." id="order_comments" class="input-text " name="order_comments"></textarea>
-                                        </div>
-
-
-                                        {{--<div class="create-account">--}}
-                                            {{--<p>Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p>--}}
-                                            {{--<p id="account_password_field" class="form-row validate-required">--}}
-                                                {{--<label class="" for="account_password">Account password <abbr title="required" class="required">*</abbr>--}}
-                                                {{--</label>--}}
-                                                {{--<input type="password" value="" placeholder="Password" id="account_password" name="account_password" class="input-text">--}}
-                                            {{--</p>--}}
-                                            {{--<div class="clear"></div>--}}
-                                        {{--</div>--}}
-
                                     </div>
                                 </div>
-
                             </div>
-                        </form>
+                        </div>
                     </div>
-                    @endif
-
                 </div>
-            </div>
 
-            <div class="col-md-6">
+                <div class="col-md-7">
                 <h3 class="order_review_heading">Thông tin đơn hàng</h3>
-
                 <div id="order_review" style="position: relative;">
                     <table class="shop_table">
                         <thead>
@@ -136,51 +109,44 @@
                         @foreach(Cart::content() as $item)
                             <tr class="cart_item">
                                 <td class="product-name"> {{ $item->name }} <strong class="product-quantity">×{{ $item->qty }}</strong> </td>
+                                <input type="hidden" name="product_id[]" value="{{ $item->id }}">
                                 <td class="product-total">
-                                    <span class="amount">{{  number_format($item->price*$item->qty) }}₫</span> </td>
+                                    <input type="hidden" name="price[]" value="{{ $item->price }}">
+                                    <input type="hidden" name="qty[]" value="{{ $item->qty }}">
+                                    <span class="amount">{{  number_format($item->price*$item->qty) }}₫</span>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
                         <tfoot>
-
-                        <tr class="cart-subtotal">
-                            <th>Tạm tính</th>
-                            <td><span class="amount">{{ Cart::subtotal(0) }}₫</span>
-                            </td>
-                        </tr>
-
-                        <tr class="shipping">
-                            <th>Phí vận chuyển</th>
-                            <td>
-
-                                Free Shipping
-                                <input type="hidden" class="shipping_method" value="free_shipping" id="shipping_method_0" data-index="0" name="shipping_method[0]">
-                            </td>
-                        </tr>
-
-                        <tr class="order-total">
-                            <th>Tổng tiền thanh toán</th>
-                            <td><strong><span class="amount">£15.00</span></strong> </td>
-                        </tr>
-
+                            <tr class="cart-subtotal">
+                                <th>Tạm tính</th>
+                                <td><span class="amount">{{ Cart::subtotal(0) }}₫</span>
+                                </td>
+                            </tr>
+                            <tr class="shipping">
+                                <th>Phí vận chuyển</th>
+                                <td>
+                                    Free Shipping
+                                    <input type="hidden" class="shipping_method" value="free_shipping" id="shipping_method_0" data-index="0" name="shipping_method[0]">
+                                </td>
+                            </tr>
+                            <tr class="order-total">
+                                <th>Tổng tiền thanh toán</th>
+                                <td><strong><span class="amount">£15.00</span></strong> </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><a href="{{route('cart')}}" class="btn btn-primary">Cập nhật giỏ hàng</a></td>
+                            </tr>
                         </tfoot>
                     </table>
-
-
-                    <div id="payment">
+                        <div id="payment">
                         <ul class="payment_methods methods">
                             <li class="payment_method_bacs">
                                 <input type="radio" data-order_button_text="" checked="checked" value="bacs" name="payment_method" class="input-radio" id="payment_method_bacs">
-                                <label for="payment_method_bacs">Direct Bank Transfer </label>
+                                <label for="payment_method_bacs">Thanh toán bằng dịch vụ Internet Banking </label>
                                 <div class="payment_box payment_method_bacs">
-                                    <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                </div>
-                            </li>
-                            <li class="payment_method_cheque">
-                                <input type="radio" data-order_button_text="" value="cheque" name="payment_method" class="input-radio" id="payment_method_cheque">
-                                <label for="payment_method_cheque">Cheque Payment </label>
-                                <div style="display:none;" class="payment_box payment_method_cheque">
-                                    <p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
+                                    <p>Đảm bảo tài khoản ngân hàng của bạn đã đăng ký dịch vụ Internet Banking.</p>
                                 </div>
                             </li>
                             <li class="payment_method_paypal">
@@ -191,25 +157,28 @@
                                     <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
                                 </div>
                             </li>
+                            <li class="payment_method_cheque">
+                                <input type="radio" data-order_button_text="" value="cheque" name="payment_method" class="input-radio" id="payment_method_cheque">
+                                <label for="payment_method_cheque">Thanh toán khi nhận hàng (COD)</label>
+                            </li>
                         </ul>
-
                         <div class="form-row place-order">
-
-                            <input type="submit" data-value="Place order" value="Place order" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
-
-
+                            <button type="submit" id="place_order" class="btn btn-danger btn-lg">Đặt hàng</button>
                         </div>
-
                         <div class="clear"></div>
-
                     </div>
                 </div>
             </div>
-
+            </form>
         </div>
     </div>
 </div>
 @endsection
 @push('script_content')
     <script src="{{ asset('frontend_assets/js/ajax/hanhchinhVN.js') }}"></script>
+    <script>
+        $(document).ready( function (e) {
+
+        })
+    </script>
 @endpush

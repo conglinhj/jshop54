@@ -1,7 +1,7 @@
 <div class="topbar">
     <div class="topbar-left">
         <div class="logo">
-            <h1><a href="{{ route('backend') }}"><img src="{{ asset('backend_assets/img/logo.png') }}" alt="Logo"></a></h1>
+            <h1><a href="{{ route('backend') }}"><img src="{{ asset('img/jshop.png') }}" alt="Logo"></a></h1>
         </div>
         <button class="button-menu-mobile open-left">
             <i class="fa fa-bars"></i>
@@ -11,14 +11,14 @@
     <div class="navbar navbar-default" role="navigation">
         <div class="container">
             <div class="navbar-collapse2">
-                <ul class="nav navbar-nav hidden-xs">
-                    <li class="language_bar dropdown hidden-xs">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">English (US) <i class="fa fa-caret-down"></i></a>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="#">Tiếng Việt</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                {{--<ul class="nav navbar-nav hidden-xs">--}}
+                    {{--<li class="language_bar dropdown hidden-xs">--}}
+                        {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">English (US) <i class="fa fa-caret-down"></i></a>--}}
+                        {{--<ul class="dropdown-menu pull-right">--}}
+                            {{--<li><a href="#">Tiếng Việt</a></li>--}}
+                        {{--</ul>--}}
+                    {{--</li>--}}
+                {{--</ul>--}}
                 @if(Auth::guard('admin')->check())
                 <ul class="nav navbar-nav navbar-right top-navbar">
                     <li class="dropdown topbar-profile">

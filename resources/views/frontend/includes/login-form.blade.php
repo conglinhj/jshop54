@@ -1,5 +1,5 @@
 
-<form action="{{ url('/login')}}" method="POST" id="loginForm"  novalidate>
+<form action="{{ url('/login')}}" method="POST" id="loginForm"  >
     {{ csrf_field() }}
 
     <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}" id="email-div">
@@ -30,7 +30,7 @@
     </div>
 
     <div class="form-group">
-        <button class="btn btn-primary btn-block">Đăng nhập</button>
+        <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
         <a class="btn btn-link right" href="{{ url('/password/reset') }}">Quên mật khẩu ?</a>
     </div>
 

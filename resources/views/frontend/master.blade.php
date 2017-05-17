@@ -36,14 +36,26 @@
 
     @include('frontend.includes.header-area')
     {{--@include('frontend.includes.site-branding-area')--}}
-    @include('frontend.includes.mainmenu-area')
-
+    {{--@include('frontend.includes.mainmenu-area')--}}
+    <div class="mainmenu-area">
+        <div class="container">
+            <div class="row">
+                @yield('menu-area')
+            </div>
+        </div>
+    </div> <!-- End mainmenu area -->
     @yield('content')
 
     @include('frontend.includes.bottom')
 
     <div class="loading-block">
         <img width="128" src="{{ asset('images/loading4.gif') }}" alt="loading....">
+    </div>
+    <div class="message-block">
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Đã thêm vào danh sách yêu thích.</strong>
+        </div>
     </div>
     <!-- Latest jQuery form server -->
     <script src="{{ asset('frontend_assets/js/jquery.min.js') }}"></script>

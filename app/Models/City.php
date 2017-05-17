@@ -11,8 +11,12 @@ class City extends Model
         'level',
     ];
 
-    public function county(){
+    public function county() {
         return $this->hasMany('App\Models\County','city_id');
+    }
+
+    public function order() {
+        return $this->hasMany(Order::class);
     }
 
 

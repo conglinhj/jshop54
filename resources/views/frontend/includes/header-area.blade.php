@@ -3,7 +3,7 @@
         <div class="row">
 
             <div class="col-sm-2" style="text-align: center">
-                <h1><a href="{{ route('home') }}"><img src="{{ asset('img/logo.png') }}"></a></h1>
+                <h1 style="margin-bottom: 5px"><a href="{{ route('home') }}"><img style="height: 60px; margin-top: 10px" src="{{ asset('img/jshop.png') }}"></a></h1>
             </div>
             <div class="col-sm-6 search-block">
                 <form action="{{ route('shop' ) }}" method="GET">
@@ -31,7 +31,7 @@
                             <li class="dropdown dropdown-small">
                                 <a  data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">{{ Auth::user()->name }} <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="btn-link"  href=""><i class="fa fa-user"></i>  profile</a></li>
+                                    <li><a class="btn-link"  href="{{ route('my.profile', ['slug' => str_slug(Auth::user()->name), 'id'=>Auth::id()]) }}"><i class="fa fa-user"></i>  profile</a></li>
                                     <li>
                                         <a class="btn-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i>  Thoát</a>
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">

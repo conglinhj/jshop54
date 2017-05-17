@@ -56,6 +56,14 @@ class Product extends Model
         return $this->belongsToMany('App\Models\Specs')->withTimestamps()->withPivot('value');
     }
 
+    public function order() {
+        return $this->belongsToMany(Order::class, 'order_details', 'product_id')->withPivot('quantity', 'price', 'discount');
+    }
+
+    public function user() {
+        return $this->belongsToMany(User::class, 'wishlist', 'product_id')->withTimestamps();
+    }
+
     /**
      * -----------------------------------------------------------------------------------------
      * for Backend
@@ -115,7 +123,7 @@ class Product extends Model
     public function isActive()
     {
         return $this->where('status', '=', self::ACTIVE)
-            ->with([
+            ->with(['user',
                 'trademark',
                 'specs' => function ($query) {
                     $query->where('spotlight', '=', self::ACTIVE)
@@ -129,7 +137,7 @@ class Product extends Model
     public function getDetailProductIsActive($id)
     {
         return $this->where('status', '=', self::ACTIVE)
-            ->with([
+            ->with(['user',
                 'trademark',
                 'specs' => function ($query) {
                     $query->where('status', '=', self::ACTIVE)

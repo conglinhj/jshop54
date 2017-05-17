@@ -1,12 +1,7 @@
 <div class="left side-menu">
     <div class="sidebar-inner slimscrollleft">
         <!-- Search form -->
-        <form role="search" class="navbar-form">
-            <div class="form-group">
-                <input type="text" placeholder="Search" class="form-control">
-                <button type="submit" class="btn search-button"><i class="fa fa-search"></i></button>
-            </div>
-        </form>
+
         <div class="clearfix"></div>
         <!--- Profile -->
         <div class="profile-info">

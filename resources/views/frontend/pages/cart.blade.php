@@ -1,5 +1,8 @@
 @extends('frontend.master')
 @section('title','Giỏ hàng')
+@section('menu-area')
+    @include('frontend.includes.menu-area-for-shop')
+@endsection
 @section('content')
     <div class="single-product-area">
         <div class="zigzag-bottom"></div>
@@ -39,7 +42,7 @@
                                                 </a>
                                             </td>
                                             <td class="product-price">
-                                                <span class="amount">{{ number_format($item->price,0,",",".") }} </span>
+                                                <span class="amount">{{ number_format($item->price,0,",",".") }} ₫</span>
                                             </td>
 
                                             <td class="product-quantity">
@@ -75,7 +78,6 @@
 
                             <div class="cart-collaterals">
 
-
                                 <div class="cross-sells">
                                     <h2>You may be interested in...</h2>
                                     <ul class="products">
@@ -100,53 +102,6 @@
                                         </li>
                                     </ul>
                                 </div>
-
-
-                                {{--<div class="cart_totals ">--}}
-                                    {{--<h2>Cart Totals</h2>--}}
-
-                                    {{--<table cellspacing="0">--}}
-                                        {{--<tbody>--}}
-                                        {{--<tr class="cart-subtotal">--}}
-                                            {{--<th>Cart Subtotal</th>--}}
-                                            {{--<td><span class="amount">£15.00</span></td>--}}
-                                        {{--</tr>--}}
-
-                                        {{--<tr class="shipping">--}}
-                                            {{--<th>Shipping and Handling</th>--}}
-                                            {{--<td>Free Shipping</td>--}}
-                                        {{--</tr>--}}
-
-                                        {{--<tr class="order-total">--}}
-                                            {{--<th>Order Total</th>--}}
-                                            {{--<td><strong><span class="amount">£15.00</span></strong> </td>--}}
-                                        {{--</tr>--}}
-                                        {{--</tbody>--}}
-                                    {{--</table>--}}
-                                {{--</div>--}}
-
-                                {{--<form method="post" action="#" class="shipping_calculator">--}}
-                                    {{--<h2><a class="shipping-calculator-button" data-toggle="collapse" href="#calcalute-shipping-wrap" aria-expanded="false" aria-controls="calcalute-shipping-wrap">Calculate Shipping</a></h2>--}}
-
-                                    {{--<section id="calcalute-shipping-wrap" class="shipping-calculator-form collapse">--}}
-
-                                        {{--<p class="form-row form-row-wide">--}}
-                                            {{--<select rel="calc_shipping_state" class="country_to_state" id="calc_shipping_country" name="calc_shipping_country">--}}
-                                                {{--<option value="">Select a country…</option>--}}
-                                                {{--<option value="AX">Åland Islands</option>--}}
-                                            {{--</select>--}}
-                                        {{--</p>--}}
-
-                                        {{--<p class="form-row form-row-wide"><input type="text" id="calc_shipping_state" name="calc_shipping_state" placeholder="State / county" value="" class="input-text"> </p>--}}
-
-                                        {{--<p class="form-row form-row-wide"><input type="text" id="calc_shipping_postcode" name="calc_shipping_postcode" placeholder="Postcode / Zip" value="" class="input-text"></p>--}}
-
-
-                                        {{--<p><button class="button" value="1" name="calc_shipping" type="submit">Update Totals</button></p>--}}
-
-                                    {{--</section>--}}
-                                {{--</form>--}}
-
 
                             </div>
                         </div>

@@ -25,7 +25,6 @@ Route::get('auth/google/callback', 'Auth\SocialiteController@handleProviderGoogl
 Route::get('/', 'HomeController@home');
 Route::get('home', 'HomeController@home')->name('home');
 Route::get('shop', 'HomeController@shop')->name('shop');
-Route::get('checkout', 'HomeController@checkOut')->name('checkout')->middleware('checkout');
 
 Route::get('your-cart', 'CartController@cart')->name('cart');
 Route::get('add-cart-{id}', 'CartController@addItem')->name('cart-add');
@@ -37,6 +36,17 @@ Route::get('select-county', 'HomeController@getTownshipFromCounty')->name('selec
 
 Route::get('product/{pro_id}-{product_slug}', 'HomeController@singleProduct')->name('product');
 Route::get('t{tra_id}-{trademark_slug}', 'HomeController@getProductOfTrademark')->name('trademark');
+
+Route::group(['middleware' => ['checkout', 'auth']], function (){
+    Route::get('checkout', 'HomeController@checkOut')->name('checkout');
+    Route::post('checkout-store', 'OrderController@store')->name('checkout.store');
+});
+Route::get('my-order-{id}', 'UserController@myOrder')->name('my.order');
+Route::get('my-profile/{id}-{slug}', 'UserController@myProfile')->name('my.profile');
+Route::get('list-order', 'UserController@listOrder')->name('my.listOrder');
+Route::post('add-wishlist', 'UserController@addWishList')->name('add-wishlist');
+Route::post('remove-wishlist', 'UserController@removeWishList')->name('remove-wishlist');
+Route::get('my-wishlist', 'UserController@wishList')->name('wishlist');
 
 
 /**

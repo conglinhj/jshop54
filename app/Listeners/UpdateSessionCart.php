@@ -53,6 +53,7 @@ class UpdateSessionCart
 
         }
         /**
+         * trường hợp 1 tài khoản cùng mua hàng trên 2 thiết bị khác nhau
          * xóa item có trong session cart
          * mà không có trong database cart
          */

@@ -24,6 +24,14 @@ class CartController extends Controller
     }
 
     /**
+     * lấy giỏ hàng của user có id = $id
+     */
+    public function CartOfUser($id){
+        $dbcart = new DbCart;
+        return $db_cart = $dbcart->getCartOfUser($id);
+    }
+
+    /**
      * thêm 1 sản phẩm vào giỏ hàng
      */
     public function addItem(Product $product, $id)
@@ -76,14 +84,6 @@ class CartController extends Controller
             $db_cart->attachToPivot($cart_item->id, $row_id, $cart_item->qty);
         }
 
-    }
-
-    /**
-     * lấy giỏ hàng của user có id = $id
-     */
-    public function CartOfUser($id){
-        $dbcart = new DbCart;
-        return $db_cart = $dbcart->getCartOfUser($id);
     }
 
     /**

@@ -40,4 +40,12 @@ class User extends Authenticatable
     public function dbcart() {
         return $this->hasOne('App\Models\DbCart');
     }
+
+    public function order() {
+        return $this->hasMany(Order::class);
+    }
+
+    public function product() {
+        return $this->belongsToMany(Product::class, 'wishlist', 'user_id')->withTimestamps();
+    }
 }

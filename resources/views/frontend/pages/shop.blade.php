@@ -1,5 +1,8 @@
 @extends('frontend.master')
 @section('title','Shop')
+@section('menu-area')
+    @include('frontend.includes.menu-area-for-shop')
+@endsection
 @section('content')
     <div class="single-product-area">
         <div class="zigzag-bottom"></div>
@@ -47,69 +50,11 @@
                         </div>
                     </div>
                 </form>
-                @push('script_content')
-                <script>
-                    $(document).ready( function () {
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        });
-
-                        var filter_form = $('#filter-form');
-                        var data_filter_form = filter_form.serialize();
-
-                        var select_trademark = $('#select-trademark');
-                        select_trademark.on('change', function () {
-                            $.ajax({
-                                type : 'GET',
-                                url : filter_form.data('url'),
-                                data : data_filter_form,
-                                beforeSend : function () {
-                                    $('.loading-block').show();
-                                },
-                                complete : function () {
-                                    $('.loading-block').hide();
-                                },
-                                success : function () {
-                                    location.href = 'http://localhost/jshop54/public/shop?trademark='+select_trademark.val();
-                                    select_trademark.val(2).prop('selected', true);
-                                },
-                                error : function () {
-
-                                }
-                            });
-                        });
-
-                        var select_price = $('#select-price');
-                        select_price.on('change', function () {
-                            var value = select_price.val();
-                            $.ajax({
-                                type : 'GET',
-                                url : filter_form.data('url'),
-                                data : data_filter_form,
-                                beforeSend : function () {
-                                    $('.loading-block').show();
-                                },
-                                complete : function () {
-                                    $('.loading-block').hide();
-                                },
-                                success : function () {
-                                    location.href = 'http://localhost/jshop54/public/shop?price='+value;
-                                },
-                                error : function () {
-
-                                }
-                            });
-                        });
-
-                    })
-                </script>
-                @endpush
             </div>
 
             <div class="row box-list-item">
                 @foreach($products as $product)
+                    {{--{{ debug($product) }}--}}
                     <div class="col-md-3 col-sm-3" style="padding: 0px;">
                         <div class="single-product box-item">
                             <div class="row">
@@ -146,7 +91,9 @@
                             </div>
                             <div class="btn-add-cart">
                                 <a href="{{ route('cart-add',['id' => $product['id']]) }}" class="add-to-cart-link" title="Thêm vào giỏ hàng"><i class="fa fa-shopping-cart fa-2x"></i></a>
-                                <a class="view-details-link" title="Yêu thích"><i class="fa fa-heart fa-2x"></i></a>
+                                @if(Auth::check())
+                                    <a class="view-details-link" data-url="{{ route('add-wishlist') }}" data-proId="{{$product['id']}}" title="Yêu thích"><i class="fa fa-heart fa-2x"></i></a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -161,5 +108,82 @@
     </div>
 
 @endsection
+@push('script_content')
+<script>
+    $(document).ready( function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
+        var filter_form = $('#filter-form');
+        var data_filter_form = filter_form.serialize();
 
+        /*loc theo hang san xuat*/
+        var select_trademark = $('#select-trademark');
+        select_trademark.on('change', function () {
+            $.ajax({
+                type : 'GET',
+                url : filter_form.data('url'),
+                data : data_filter_form,
+                beforeSend : function () {
+                    $('.loading-block').show();
+                },
+                complete : function () {
+                    $('.loading-block').hide();
+                },
+                success : function () {
+                    location.href = 'http://localhost/jshop54/public/shop?trademark='+select_trademark.val();
+                    select_trademark.val(2).prop('selected', true);
+                },
+                error : function () {
+
+                }
+            });
+        });
+
+        /* loc theo gia */
+        var select_price = $('#select-price');
+        select_price.on('change', function () {
+            var value = select_price.val();
+            $.ajax({
+                type : 'GET',
+                url : filter_form.data('url'),
+                data : data_filter_form,
+                beforeSend : function () {
+                    $('.loading-block').show();
+                },
+                complete : function () {
+                    $('.loading-block').hide();
+                },
+                success : function () {
+                    location.href = 'http://localhost/jshop54/public/shop?price='+value;
+                },
+                error : function () {
+
+                }
+            });
+        });
+
+        /*wishlist*/
+        $('.view-details-link').on('click', function () {
+            $.ajax({
+                type : 'POST',
+                url : $(this).data('url'),
+                data : {
+                    proId : $(this).attr('data-proId')
+                },
+                success : function () {
+                    $('.message-block').show();
+                    $('.message-block').fadeOut(3000);
+                },
+                error : function (message) {
+                    console.log(message);
+                }
+            });
+        });
+
+    })
+</script>
+@endpush

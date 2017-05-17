@@ -1,46 +1,8 @@
 @extends('frontend.master')
-
+@section('menu-area')
+    @include('frontend.includes.menu-area-for-shop')
+@endsection
 @section('content')
-    {{--<div style="background-color: #00ACEE; margin-top: 20px;">--}}
-    {{--<div class="container" >--}}
-    {{--<form method="GET">--}}
-    {{--<select id="select-trademark" name="" data-url="">--}}
-    {{--<option value="0">Tìm theo hãng</option>--}}
-    {{--@foreach($trademarks as $trademark)--}}
-    {{--<option value="{{ $trademark['id'] }}">{{ $trademark['name'] }}</option>--}}
-    {{--@endforeach--}}
-    {{--</select>--}}
-
-    {{--<select name="" id="">--}}
-    {{--<option value="">Tìm theo mức giá</option>--}}
-    {{--<option value="">Dưới 10 triệu</option>--}}
-    {{--<option value="">10 đến 12 triệu</option>--}}
-    {{--<option value="">12 đến 15 triệu</option>--}}
-    {{--<option value="">trên 15 triệu</option>--}}
-    {{--</select>--}}
-    {{--</form>--}}
-    {{--@push('script_content')--}}
-    {{--<script>--}}
-    {{--$(document).ready( function () {--}}
-
-    {{--$.ajaxSetup({--}}
-    {{--headers: {--}}
-    {{--'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
-    {{--}--}}
-    {{--});--}}
-
-    {{--$('#select-trademark').on('change', function () {--}}
-    {{--alert($(this).val());--}}
-    {{--//                        $.ajax({--}}
-    {{--//                            type : 'GET',--}}
-    {{--//                            url : ,--}}
-    {{--//                        });--}}
-    {{--})--}}
-    {{--})--}}
-    {{--</script>--}}
-    {{--@endpush--}}
-    {{--</div>--}}
-    {{--</div>--}}
     <div class="single-product-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
@@ -49,7 +11,7 @@
                     <div class="col-md-3 col-sm-3" style="padding: 5px;">
                         <div class="single-product box-shadow">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12" style="height: 100px; overflow: hidden">
                                     <h2><a href="{{ route('product',[ 'pro_id' => $product['id'], 'product_slug' => str_slug($product['name']) ]) }}">{{ $product['name'] }}</a></h2>
                                     <div class="product-carousel-price">
                                         <ins>{{ number_format($product['price'],0,",",".") }}₫</ins>
@@ -57,7 +19,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="product-f-image">
-                                        <a href="{{ route('product',[ 'pro_id' => $product['id'], 'product_slug' => str_slug($product['name']) ]) }}"><img src="{{ $product['image'] }}" ></a>
+                                        <a href="{{ route('product',[ 'pro_id' => $product['id'], 'product_slug' => str_slug($product['name']) ]) }}"><img src="{{ asset($product['image']) }}" ></a>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

@@ -31,6 +31,17 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="form-group ">
+                                    <label class="control-label">Loại sản phẩm</label>
+                                    <select name="category_id" class="form-control">
+                                        <option value="">--- Chose one ---</option>
+                                        @foreach($categories as $category)
+                                            <option @if($details_product['category_id'] == $category['id']) selected @endif value="{{ $category->id }}" >{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Hãng</label>
                                     <select name="trademark_id" class="form-control">
@@ -39,21 +50,6 @@
                                             <option @if($details_product['trademark_id'] == $trademark['id']) selected @endif value="{{ $trademark->id }}" >{{ $trademark->name }}</option>
                                         @endforeach
                                     </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Ảnh</label>
-                                    <div class="input-group">
-                                       <span class="input-group-btn">
-                                         <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                                           <i class="fa fa-picture-o"></i> Choose
-                                         </a>
-                                       </span>
-                                        <input id="thumbnail" class="form-control" value="{{ asset($details_product['image']) }}" type="text" name="image">
-                                    </div>
-                                    <img id="holder" style="margin-top:15px;max-height:100px;" src="{{ asset($details_product['image']) }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -66,6 +62,25 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <label class="control-label">Ảnh</label>
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                                                    <i class="fa fa-picture-o"></i> Choose
+                                                </a>
+                                            </span>
+                                            <input id="thumbnail" class="form-control" value="{{ asset($details_product['image']) }}" type="text" name="image">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <img id="holder" style="margin-top:15px;max-height:100px;" src="{{ asset($details_product['image']) }}">
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-6"></div>
                         </div>
                         <div class="form-group">

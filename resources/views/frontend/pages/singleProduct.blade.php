@@ -20,17 +20,21 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-7">
-                                <div class="product-images">
-                                    <div class="product-main-img">
-                                        <img src="{{ asset($product_details['image']) }}" alt="">
-                                    </div>
+                                    <div class="row product-images">
+                                        <div class="col-md-8">
+                                            <div class="product-main-img">
+                                                <img src="{{ asset($product_details['image']) }}" alt="">
+                                            </div>
+                                        </div>
+                                        {{--<div class="col-md-4">--}}
+                                            {{--<div class="thumbnail">--}}
+                                                {{--<a href="{{ asset($product_details['image']) }}" target="_blank">--}}
+                                                    {{--<img src="{{ asset($product_details['image']) }}" alt="Lights" style="max-height: 100px">--}}
+                                                {{--</a>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
 
-                                    <div class="product-gallery">
-                                        <img src="{{ asset('img/product-thumb-1.jpg') }}" alt="">
-                                        <img src="{{ asset('img/product-thumb-2.jpg') }}" alt="">
-                                        <img src="{{ asset('img/product-thumb-3.jpg') }}" alt="">
                                     </div>
-                                </div>
                             </div>
                             <div class="col-md-5">
                                 <h2 class="product-name">{{ $product_details['name'] }}</h2>
@@ -51,7 +55,7 @@
                                     <div role="tabpanel">
                                         <ul class="product-tab" role="tablist">
                                             <li role="presentation" class="active"><a href="#specs" aria-controls="home" role="tab" data-toggle="tab">Thông số kỹ thuật</a></li>
-                                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Bình luận & Đánh giá</a></li>
+                                            <li role="presentation"><a href="#comment" aria-controls="profile" role="tab" data-toggle="tab">Bình luận & Đánh giá</a></li>
                                         </ul>
                                         <div class="tab-content">
                                             <div role="tabpanel" class="tab-pane fade in active" id="specs">
@@ -62,7 +66,7 @@
                                                             <table  class="table table">
                                                                 <tr class="active"><td style="padding-bottom: 0;" colspan="2"><h4>{{ $hardware['name'] }}</h4></td></tr>
                                                                 @foreach($product_details->specs as $detail)
-                                                                    @if($hardware['id'] == $detail['hardware_id'])
+                                                                    @if($hardware['id'] == $detail['hardware_id'] && $detail->pivot['value'] != null )
                                                                         <tr>
                                                                             <td style="width: 40%"><p> {{ $detail['name'] }}</p></td>
                                                                             <td><p> @php echo ( $detail->pivot['value'] != null ? $detail->pivot['value'] : "Chưa cập nhật") @endphp</p></td>
@@ -75,17 +79,19 @@
                                                 @endforeach
 
                                             </div>
-                                            <div role="tabpanel" class="tab-pane fade" id="profile">
-                                                <h2>Reviews</h2>
-                                                <div class="submit-review">
-                                                    <p><label for="name">Tên</label> <input name="name" type="text"></p>
-                                                    <p><label for="email">Email</label> <input name="email" type="email"></p>
-                                                    <div class="rating-chooser">
-                                                        <p>Đánh giá của bạn</p>
-                                                    </div>
-                                                    <p><label for="review">Your review</label> <textarea name="review" id="" cols="30" rows="10"></textarea></p>
-                                                    <p><input type="submit" value="Submit"></p>
-                                                </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="comment">
+                                                <h2>Bình luận</h2>
+                                                <div class="fb-comments" data-href="{{ route('product',[ 'pro_id' => $product_details['id'], 'product_slug' => str_slug($product_details['name']) ]) }}" data-width="450" data-numposts="10"></div>
+                                                {{--<div class="submit-review">--}}
+
+                                                    {{--<p><label for="name">Tên</label> <input name="name" type="text"></p>--}}
+                                                    {{--<p><label for="email">Email</label> <input name="email" type="email"></p>--}}
+                                                    {{--<div class="rating-chooser">--}}
+                                                        {{--<p>Đánh giá của bạn</p>--}}
+                                                    {{--</div>--}}
+                                                    {{--<p><label for="review">Your review</label> <textarea name="review" id="" cols="30" rows="10"></textarea></p>--}}
+                                                    {{--<p><input type="submit" value="Submit"></p>--}}
+                                                {{--</div>--}}
                                             </div>
                                         </div>
                                     </div>
@@ -195,3 +201,13 @@
     </div>
 
 @endsection
+@push('script_content')
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.9&appId=1737559496260590";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+@endpush

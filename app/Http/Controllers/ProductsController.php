@@ -17,11 +17,18 @@ class ProductsController extends Controller
 
     }
     public  function index(Product $product, Request $request){
-        if ($request->type == 0 ){
-            $list_products = $product->getAll();
-        }else{
-            $list_products = $product->getListWithType($request->type);
+        $list_products = $product->getAll();
+        if ($request->type){
+            if ($request->type != 2 ){
+                $list_products = $product->getListWithType($request->type);
+            }
         }
+        if ($request->category){
+            if ($request->category != 0){
+                $list_products = $product->getListWithCategory($request->category);
+            }
+        }
+
 
         return view('backend.products.list',[
             'list_products' => $list_products,

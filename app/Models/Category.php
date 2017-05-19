@@ -13,6 +13,7 @@ class Category extends Model
      */
     protected $fillable = [
         'name',
+        'status',
     ];
 
     /**
@@ -21,5 +22,20 @@ class Category extends Model
      */
     public function product(){
         return $this->hasMany('App\Models\Product');
+    }
+
+    public function getList()
+    {
+        return $this->latest('updated_at')
+            ->paginate();
+    }
+    public function getAll()
+    {
+        return $this->get();
+    }
+
+    public function getDetails($id)
+    {
+        return $this->findOrFail($id);
     }
 }

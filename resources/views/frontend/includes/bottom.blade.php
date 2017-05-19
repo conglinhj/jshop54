@@ -13,18 +13,18 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-3 col-sm-6">
-                <div class="footer-menu">
-                    <h2 class="footer-wid-title">Hi! {{ Auth::user()->name }} </h2>
-                    <ul>
-                        <li><a href="#">My account</a></li>
-                        <li><a href="#">Order history</a></li>
-                        <li><a href="#">Wishlist</a></li>
-                    </ul>
-                </div>
+                @if(Auth::check())
+                    <div class="footer-menu">
+                        <h2 class="footer-wid-title">Hi! {{ Auth::user()->name }} </h2>
+                        <ul>
+                            <li><a href="{{ route('my.profile', ['slug' => str_slug(Auth::user()->name), 'id'=>Auth::id()]) }}">My account</a></li>
+                            <li><a href="{{ route('my.listOrder') }}">Order history</a></li>
+                            <li><a href="{{ route('wishlist') }}">Wishlist</a></li>
+                        </ul>
+                    </div>
+                @endif
             </div>
-
             <div class="col-md-3 col-sm-6">
                 <div class="footer-menu">
                     <h2 class="footer-wid-title">Categories</h2>

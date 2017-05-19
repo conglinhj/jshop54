@@ -88,6 +88,14 @@
     -webkit-transform: scale(1.05);
     transform: scale(1.05);
 }
+.shopping-item {
+    border: 1px solid #ddd;
+    float: right;
+    font-size: 18px;
+    margin-top: 0;
+    padding: 8px;
+    position: relative;
+}
 .shopping-item i.fa {
     margin-left: 0;
     color: #232F3E;

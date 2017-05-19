@@ -41,19 +41,21 @@ class HomeController extends Controller
      */
     public function shop(Product $product, Request $request)
     {
-//        dd($request);
         $products = $product->isActive();
         if ($request->key) {
             $products = self::searchProduct($request);
         }
+        return view('frontend.pages.shop',compact('products'));
+    }
+
+    public function ProductOfCategory(Product $product, Request $request) {
+        $products = $product->isActiveOfCategory($request->category_id);
         if ($request->trademark){
-            $products = $product->getProductsOfTrademark($request->trademark);
+            $products = $product->getProductsOfTrademarkAndCategory($request->category_id, $request->trademark);
         }
         if ($request->price){
-            $products = $product->getProductWithPrice($request->price);
+            $products = $product->getProductWithPrice($request->category_id, $request->price);
         }
-
-
         return view('frontend.pages.shop',compact('products'));
     }
 

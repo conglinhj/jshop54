@@ -8,6 +8,7 @@
         <div class="zigzag-bottom"></div>
         <div class="container">
 
+            @if(!Request::is('shop') && !Request::is('home'))
             <div class="filter-product row">
                 <form method="GET" id="filter-form" data-url="{{ route('shop') }}" class="form-inline">
                     <div class="row">
@@ -18,7 +19,7 @@
                         <div class="col-md-9">
                             <div class="form-group">
                                 <label for="select-trademark"> Hãng </label>
-                                <select id="select-trademark" name="trademark" class="form-control">
+                                <select id="select-trademark" name="trademark" class="form-control" data-url="{{Request::url()}}">
                                     <option value="0">Tất cả</option>
                                     @foreach($trademarks as $trademark)
                                         <option value="{{ $trademark['id'] }}" {{ (Request::fullUrl() == Request::url().'?trademark='.$trademark['id']) ? 'selected':'' }} >{{ $trademark['name'] }}</option>
@@ -28,7 +29,7 @@
 
                             <div class="form-group">
                                 <label for="select-price">&nbsp&nbsp&nbsp Mức giá</label>
-                                <select name="price" id="select-price" class="form-control">
+                                <select name="price" id="select-price" class="form-control" data-url="{{Request::url()}}">
                                     <option value="0" {{ (Request::fullUrl() == Request::url().'?price=0') ? 'selected':'' }}> Tất cả </option>
                                     <option value="1" {{ (Request::fullUrl() == Request::url().'?price=1') ? 'selected':'' }}> < 10 triệu </option>
                                     <option value="2" {{ (Request::fullUrl() == Request::url().'?price=2') ? 'selected':'' }}> 10 - 15 triệu </option>
@@ -44,14 +45,12 @@
                         </div>
 
                         <div class="col-md-2 right" style="text-align: right;">
-                            @if(Request::is('shop*'))
-                                <label style="color: darkred;margin-top: 6px">{{ count($products) }} sản phẩm.</label>
-                            @endif
+                            <label style="color: darkred;margin-top: 6px">{{ count($products) }} sản phẩm.</label>
                         </div>
                     </div>
                 </form>
             </div>
-
+            @endif
             <div class="row box-list-item">
                 @foreach($products as $product)
                     {{--{{ debug($product) }}--}}
@@ -69,7 +68,7 @@
                                         <a href="{{ route('product',[ 'pro_id' => $product['id'], 'product_slug' => str_slug($product['name']) ]) }}"><img  src="{{ asset($product['image']) }}" ></a>
                                     </div>
                                 </div>
-                                <div class="col-md-12 info-specs-product">
+                                <div class="col-md-12 info-specs-product" style="height: 150px; overflow: hidden;line-height: 1.3;">
                                     @php
                                         $hw_ar = array();
                                         foreach($product->specs as $specs) {
@@ -81,8 +80,7 @@
                                         <p>{{ $hw }} :
                                             <span>
                                                 @foreach( $hw_specss as $key => $hw_specs)
-                                                    {{ $hw_specs }}
-                                                    @if($hw_specs != "" &&   $key != (count($hw_specss) -1) ),@endif
+                                                    {{ $hw_specs }}@if(trim($hw_specs) != '' &&   $key != (count($hw_specss) -1) ),@endif
                                                 @endforeach
                                             </span>
                                         </p>
@@ -134,7 +132,7 @@
                     $('.loading-block').hide();
                 },
                 success : function () {
-                    location.href = 'http://localhost/jshop54/public/shop?trademark='+select_trademark.val();
+                    location.href = select_trademark.data('url')+'?trademark='+select_trademark.val();
                     select_trademark.val(2).prop('selected', true);
                 },
                 error : function () {
@@ -158,7 +156,7 @@
                     $('.loading-block').hide();
                 },
                 success : function () {
-                    location.href = 'http://localhost/jshop54/public/shop?price='+value;
+                    location.href = select_price.data('url')+'?price='+value;
                 },
                 error : function () {
 

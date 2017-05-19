@@ -31,15 +31,25 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <select data-url="{{ route('backend.products.list') }}" id="type-list" class="form-control">
-                                        <option value="0" selected>Tất cả</option>
-                                        <option value="1" >Active</option>
-                                        <option value="2" >Deactivated</option>
+                                    <select data-url="{{ route('backend.products.list') }}" data-href="{{Request::url()}}" id="type-list" class="form-control">
+                                        <option {{ (Request::fullUrl() == Request::url().'?type=2') ? 'selected':'' }} value="2" selected>Tất cả trạng thái</option>
+                                        <option {{ (Request::fullUrl() == Request::url().'?type=1') ? 'selected':'' }} value="1" >Active</option>
+                                        <option {{ (Request::fullUrl() == Request::url().'?type=0') ? 'selected':'' }} value="0" >Deactivated</option>
                                         {{--<option value="3" >Deleted</option>--}}
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select data-url="{{ route('backend.products.list') }}" data-href="{{Request::url()}}" id="category-list" class="form-control">
+                                        <option {{ (Request::fullUrl() == Request::url().'?category=0') ? 'selected':'' }} value="0" selected>Tất cả Loại sản phẩm</option>
+                                        @foreach($categories as $category)
+                                            <option {{ (Request::fullUrl() == Request::url().'?category='.$category->id) ? 'selected':'' }} value="{{$category->id}}" >{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="toolbar-btn-action">
                                     <a href="{{ route('backend.products.showCreateForm') }}" class="btn btn-success"><i class="fa fa-plus-circle"></i> Add new</a>
                                 </div>
@@ -62,6 +72,7 @@
                                 <th>Trademark</th>
                                 <th>Category</th>
                                 <th>Price</th>
+                                <th>Quantity</th>
                                 <th>Status</th>
                                 <th data-sortable="false">Option</th>
                             </tr>
@@ -76,6 +87,7 @@
                                 <td>{{ $product->trademark['name'] }}</td>
                                 <td>{{ $product->category['name'] }}</td>
                                 <td>{{ number_format($product['price'],0,",",".") }} VND</td>
+                                <td>{{ $product['quantity'] }}</td>
                                 <td style="width: 10%;">
                                     <div class="status-block">
                                         <input data-proId="{{ $product['id'] }}" data-url="{{route('backend.products.changeStatus')}}" name="status" type="checkbox" class="ios-switch ios-switch-primary ios-switch-sm" @if($product['status'] == 1 ) checked @endif /><br>
@@ -149,13 +161,13 @@
         });
 
         //change list
-        $('#type-list').on('change', function () {
-            var type_list = $(this).val();
+        var type_list = $('#type-list');
+        type_list.on('change', function () {
             $.ajax({
                 type : 'GET',
                 url : $(this).data('url'),
                 data : {
-                    type : type_list
+                    type : type_list.val()
                 },
                 dataType : 'text',
                 beforeSend : function () {
@@ -165,10 +177,32 @@
                     $('.loading-block').hide();
                 },
                 success : function () {
-                    location.reload();
+                    location.href = type_list.data('href')+'?type='+type_list.val();
                 }
             });
-        })
+        });
+
+        var category_list = $('#category-list');
+        category_list.on('change', function () {
+            $.ajax({
+                type : 'GET',
+                url : category_list.data('url'),
+                data : {
+                    category : category_list.val()
+                },
+                dataType : 'text',
+                beforeSend : function () {
+                    $('.loading-block').show();
+                },
+                complete : function () {
+                    $('.loading-block').hide();
+                },
+                success : function () {
+                    location.href = category_list.data('href')+'?category='+category_list.val();
+                }
+            });
+        });
+
     })
 </script>
 @endpush

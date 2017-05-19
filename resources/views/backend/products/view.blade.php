@@ -54,7 +54,7 @@
                             </tr>
                             <tr>
                                 <td><strong>Loại sản phẩm</strong></td>
-                                <td>{{ $details_product['category_id'] }}</td>
+                                <td>{{ $details_product->category['name'] }}</td>
                             </tr>
                             <tr>
                                 <td><strong>Giới thiệu</strong></td>
@@ -68,6 +68,10 @@
                             <tr>
                                 <td><strong>Giá</strong></td>
                                 <td>{{ number_format($details_product['price'],0,",",".") }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Số lượng</strong></td>
+                                <td>{{ $details_product['quantity']}}</td>
                             </tr>
                             <tr>
                                 <td><strong>created at</strong></td>

@@ -10,16 +10,27 @@
 
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-            <li {{ Request::is('smartphone') ? 'class=active' : '' }}><a href="{{ route('shop') }}"><i class="fa fa-mobile fa-2x" aria-hidden="true"></i> Smart Phone</a></li>
-            <li {{ Request::is('shop') ? 'class=active' : '' }}><a href="{{ route('shop') }}"><i class="fa fa-laptop fa-2x" aria-hidden="true"></i> Laptop</a></li>
-            <li {{ Request::is('tablet') ? 'class=active' : '' }}><a href="{{ route('shop') }}"><i class="fa fa-tablet fa-2x" aria-hidden="true"></i> Tablet</a></li>
-            <li {{ Request::is('tablet') ? 'class=active' : '' }}><a href="{{ route('shop') }}"><i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i> Tin tức</a></li>
-            <li {{ Request::is('tablet') ? 'class=active' : '' }}><a href="{{ route('shop') }}"><i class="fa fa-gift fa-2x" aria-hidden="true"></i> Khuyến mãi</a></li>
+            @foreach($categories as $category)
+                <li {{ Request::is('category/'.$category->id.'-'.str_slug($category->name)) ? 'class=active' : '' }}>
+                    <a href="{{ route('shop.category',['category_id'=>$category->id, 'slug'=>str_slug($category->name)]) }}">
+                        @if($category->id==1)
+                            <i class="fa fa-laptop" aria-hidden="true"></i>
+                        @elseif($category->id==2)
+                            <i class="fa fa-mobile" aria-hidden="true"></i>
+                        @elseif($category->id==3)
+                            <i class="fa fa-tablet" aria-hidden="true"></i>
+                        @endif
+                        {{ $category->name }}
+                    </a>
+                </li>
+            @endforeach
+            <li {{ Request::is('new') ? 'class=active' : '' }}><a href="{{ route('shop') }}"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Tin tức</a></li>
+            <li {{ Request::is('sale') ? 'class=active' : '' }}><a href="{{ route('shop') }}"><i class="fa fa-gift" aria-hidden="true"></i> Khuyến mãi</a></li>
         </ul>
     </div>
 </div>
-<div class="col-sm-3 right" style="margin-left: 15px">
-    <div class="shopping-item" style="margin-top: 3px;">
+<div class="col-sm-3 right" style="margin-left: 15px;">
+    <div class="shopping-item">
         <a href="{{ route('cart') }}"><i class="fa fa-shopping-cart"></i>&nbsp&nbsp<span class="cart-amunt">{{ Cart::subtotal(0) }} ₫</span> <span class="product-count">{{ Cart::count() }}</span></a>
     </div>
 </div>

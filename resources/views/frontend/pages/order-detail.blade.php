@@ -20,7 +20,7 @@
                                         <td>{{ $order_detail->id }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-right">Tên khách hàng </td>
+                                        <td class="text-right">Người nhận </td>
                                         <td>{{ $order_detail->customer_name }}</td>
                                     </tr>
                                     <tr>

@@ -17,7 +17,7 @@
                                 <div class="col-1">
                                     <div class="woocommerce-billing-fields">
                                         <div id="billing_first_name_field" class="form-group {{ $errors->has('customer_name') ? ' has-error' : '' }}">
-                                            <label  class="control-label" for="billing_first_name">Họ Tên<abbr title="required" class="required">*</abbr></label>
+                                            <label  class="control-label" for="billing_first_name">Họ tên người nhận<abbr title="required" class="required">*</abbr></label>
                                             <input type="text" value="{{ old('customer_name') }}" class="form-control input-text"  placeholder="" id="billing_first_name" name="customer_name" required>
                                             @if ($errors->has('customer_name'))
                                                 <span class="help-block">
@@ -143,7 +143,7 @@
                         <div id="payment">
                         <ul class="payment_methods methods">
                             <li class="payment_method_bacs">
-                                <input type="radio" data-order_button_text="" checked="checked" value="bacs" name="payment_method" class="input-radio" id="payment_method_bacs">
+                                <input type="radio" data-order_button_text=""  value="bacs" name="payment_method" class="input-radio" id="payment_method_bacs">
                                 <label for="payment_method_bacs">Thanh toán bằng dịch vụ Internet Banking </label>
                                 <div class="payment_box payment_method_bacs">
                                     <p>Đảm bảo tài khoản ngân hàng của bạn đã đăng ký dịch vụ Internet Banking.</p>
@@ -158,7 +158,7 @@
                                 </div>
                             </li>
                             <li class="payment_method_cheque">
-                                <input type="radio" data-order_button_text="" value="cheque" name="payment_method" class="input-radio" id="payment_method_cheque">
+                                <input type="radio" data-order_button_text="" checked="checked" value="cheque" name="payment_method" class="input-radio" id="payment_method_cheque">
                                 <label for="payment_method_cheque">Thanh toán khi nhận hàng (COD)</label>
                             </li>
                         </ul>

@@ -3,10 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\DbCart;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Models\Category;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,9 +13,10 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(DbCart $dbcart)
+    public function boot(Category $category)
     {
-        //
+        $categories = $category->getAll();
+        View::share(compact('categories'));
     }
 
     /**

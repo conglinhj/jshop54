@@ -29,6 +29,17 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="form-group ">
+                                    <label class="control-label">Loại sản phẩm</label>
+                                    <select name="category_id" class="form-control">
+                                        <option value="">--- Chose one ---</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id }}" >{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Hãng</label>
                                     <select name="trademark_id" class="form-control">
@@ -41,20 +52,6 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Ảnh</label>
-                                    <div class="input-group">
-                                       <span class="input-group-btn">
-                                         <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                                           <i class="fa fa-picture-o"></i> Choose
-                                         </a>
-                                       </span>
-                                        <input id="thumbnail" class="form-control" type="text" name="image">
-                                    </div>
-                                    <img id="holder" style="margin-top:15px;max-height:100px;">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
                                     <label class="control-label">Giá bán</label>
                                     <div class="input-group">
                                         <input name="price" type="text" class="form-control">
@@ -62,7 +59,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6"></div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <label class="control-label">Ảnh</label>
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                                                    <i class="fa fa-picture-o"></i> Choose
+                                                </a>
+                                            </span>
+                                            <input id="thumbnail" class="form-control" type="text" name="image">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <img id="holder" style="margin-top:15px;max-height:100px;" >
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label">Giới thiệu về sản phẩm</label>

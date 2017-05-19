@@ -22,9 +22,10 @@ Route::get('auth/google/callback', 'Auth\SocialiteController@handleProviderGoogl
 /**
  * Route for Frontend
  */
-Route::get('/', 'HomeController@home');
-Route::get('home', 'HomeController@home')->name('home');
+Route::get('/', 'HomeController@shop');
+Route::get('home', 'HomeController@shop')->name('home');
 Route::get('shop', 'HomeController@shop')->name('shop');
+Route::get('category/{category_id}-{slug}', 'HomeController@ProductOfCategory')->name('shop.category');
 
 Route::get('your-cart', 'CartController@cart')->name('cart');
 Route::get('add-cart-{id}', 'CartController@addItem')->name('cart-add');
@@ -36,18 +37,22 @@ Route::get('select-county', 'HomeController@getTownshipFromCounty')->name('selec
 
 Route::get('product/{pro_id}-{product_slug}', 'HomeController@singleProduct')->name('product');
 Route::get('t{tra_id}-{trademark_slug}', 'HomeController@getProductOfTrademark')->name('trademark');
-
+/*checkout*/
 Route::group(['middleware' => ['checkout', 'auth']], function (){
     Route::get('checkout', 'HomeController@checkOut')->name('checkout');
     Route::post('checkout-store', 'OrderController@store')->name('checkout.store');
 });
-Route::get('my-order-{id}', 'UserController@myOrder')->name('my.order');
-Route::get('my-profile/{id}-{slug}', 'UserController@myProfile')->name('my.profile');
-Route::get('list-order', 'UserController@listOrder')->name('my.listOrder');
-Route::post('add-wishlist', 'UserController@addWishList')->name('add-wishlist');
-Route::post('remove-wishlist', 'UserController@removeWishList')->name('remove-wishlist');
-Route::get('my-wishlist', 'UserController@wishList')->name('wishlist');
+/*user profile*/
+Route::group(['middleware' => 'auth'], function (){
+    Route::get('my-order-{id}', 'UserController@myOrder')->name('my.order');
+    Route::get('my-profile/{id}-{slug}', 'UserController@myProfile')->name('my.profile');
+    Route::get('list-order', 'UserController@listOrder')->name('my.listOrder');
+    /*Wish list*/
+    Route::post('add-wishlist', 'UserController@addWishList')->name('add-wishlist');
+    Route::post('remove-wishlist', 'UserController@removeWishList')->name('remove-wishlist');
+    Route::get('my-wishlist', 'UserController@wishList')->name('wishlist');
 
+});
 
 /**
  * Authenticate Admin
@@ -63,6 +68,17 @@ Route::post('admin-logout', 'Admin\AdminLoginController@logout')->name('admin.lo
 Route::group(['prefix' => 'backend', 'middleware' => 'auth:admin'], function () {
 
     Route::get('/', 'ManagementController@dashBoard')->name('backend');
+
+    /*category route*/
+    Route::group(['prefix' => 'category'], function (){
+        Route::get('list','CategoriesController@index')->name('backend.category.list');
+        Route::get('view-{id}','CategoriesController@viewDetails')->name('backend.category.viewDetails');
+        Route::get('create','CategoriesController@showCreateForm')->name('backend.category.showCreateForm');
+        Route::post('store','CategoriesController@store')->name('backend.category.store');
+        Route::get('edit-{id}','CategoriesController@showEditForm')->name('backend.category.showEditForm');
+        Route::post('update','CategoriesController@update')->name('backend.category.update');
+        Route::post('destroy','CategoriesController@destroy')->name('backend.category.destroy');
+    });
     /*products route*/
     Route::group(['prefix' => 'products'], function (){
         Route::get('list', 'ProductsController@index')->name('backend.products.list');

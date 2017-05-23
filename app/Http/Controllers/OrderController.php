@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Validator;
 use Illuminate\Http\Request;
 use App\Models\Order;
@@ -56,20 +57,20 @@ class OrderController extends Controller
     /* for backend */
 
     public function index(Request $request, Order $order) {
-        $orders = $order->where('status', '=', 0)->with('user')->paginate(20);
+        $orders = $order->where('status', '=', 0)->with('user')->latest()->paginate(20);
         if ($request->status){
             if ($request->status == 10){
-                $orders = $order->with('user')->paginate(20);
+                $orders = $order->with('user')->latest()->paginate(20);
             } else{
-                $orders = $order->where('status', '=', $request->status)->with('user')->paginate(20);
+                $orders = $order->where('status', '=', $request->status)->with('user')->latest()->paginate(20);
             }
         }
         if ($request->order_id){
             $this->validate($request,['order_id' => 'required']);
-            $orders = $order->where('id','=',$request->order_id)->paginate();
+            $orders = $order->where('id','=',$request->order_id)->latest()->paginate();
         }
         if ($request->date){
-            $orders = $order->where('created_at','like',$request->date.'%')->paginate();
+            $orders = $order->where('created_at','like',$request->date.'%')->latest()->paginate();
         }
 
         return view('backend.order.list',compact('orders'));
@@ -90,10 +91,22 @@ class OrderController extends Controller
         return view('backend.order.view', compact('order_detail'));
 
     }
-    public function changeStatus(Request $request, Order $order) {
+    public function changeStatus(Request $request, Order $order, Product $product) {
         $order_details = $order->find($request->id);
         $order_details->status = $request->status;
         $order_details->save();
+
+        if ($order_details->status == 1){
+            foreach ($order_details->product as $item){
+                $product_d = $product->find($item->id);
+                $product_d->quantity = $product_d->quantity - $item->pivot->quantity;
+                $product_d->save();
+            }
+        }
+
+        return response()->json([
+            'order' => $order_details
+        ], 200);
     }
 
 }

@@ -21,9 +21,9 @@
                         <div class="row">
                             <div class="col-md-7">
                                     <div class="row product-images">
-                                        <div class="col-md-8">
-                                            <div class="product-main-img">
-                                                <img src="{{ asset($product_details['image']) }}" alt="">
+                                        <div class="col-md-12">
+                                            <div class="product-main-img" style="text-align: center">
+                                                <img style="max-height: 350px" src="{{ asset($product_details['image']) }}" alt="">
                                             </div>
                                         </div>
                                         {{--<div class="col-md-4">--}}
@@ -41,15 +41,24 @@
                                 <div class="product-inner-price">
                                     <ins>{{ number_format($product_details['price'],0,",",".") }}₫</ins>
                                 </div>
-                                <a href="{{ route('cart-add',['id' => $product_details['id']]) }}" class="add_to_cart_button" type="submit">Add to cart</a>
+                                @if($product_details->quantity <= 50)
+                                    <p style="color: red;">chỉ còn sản {{$product_details->quantity}} phẩm</p>
+                                @endif
+                                @if($product_details->quantity != 0)
+                                    <a href="{{ route('cart-add',['id' => $product_details['id']]) }}" class="add_to_cart_button" type="submit">Add to cart</a>
+                                @endif
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="intro-block col-md-7" style="overflow: hidden">
-                                <p>{!! $product_details['intro'] !!}</p>
+                            <div class="col-md-7">
+                                <div class="intro-block" style="overflow: hidden; height: 1200px;">
+                                    <p>{!! $product_details['intro'] !!}</p>
+                                </div>
+                                <a id="show_more" class="btn">Show more...</a>
                             </div>
+
                             <div class="col-md-5">
                                 <div class="product-inner">
                                     <div role="tabpanel">
@@ -209,5 +218,21 @@
         js = d.createElement(s); js.id = id;
         js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.9&appId=1737559496260590";
         fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+<script>
+    $(document).ready( function () {
+        var intro_block = $('.intro-block');
+        $showmore = $('#show_more');
+        $showmore.on('click', function () {
+            if ($showmore.text() === 'Show more...'){
+                intro_block.css('height', 'auto');
+                $showmore.text('hide...');
+            } else if ($showmore.text() === 'hide...'){
+                intro_block.css('height', '1200px');
+                $showmore.text('Show more...');
+            }
+        });
+    })
+</script>
 @endpush

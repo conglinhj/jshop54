@@ -227,7 +227,9 @@
                     id : $(this).attr('data-orderId'),
                     status : $(this).attr('data-status')
                 },
-                success : function () {
+                success : function (order) {
+                    console.log(order);
+                    console.log(order.responseText);
                     location.reload();
                 },
                 error : function (error) {

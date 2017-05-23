@@ -10,7 +10,7 @@
 
     <div class="navbar-collapse collapse menu-for-profile">
         <ul class="nav navbar-nav">
-            <li {{ Request::is('my-profile*') ? 'class=active' : '' }}><a href="{{ route('my.profile', ['slug' => str_slug(Auth::user()->name), 'id'=>Auth::id()]) }}"><i class="fa fa-user" aria-hidden="true"></i> Thông tin cá nhân</a></li>
+            <li {{ Request::is('my-profile*') ? 'class=active' : '' }}><a href="{{ route('my.profile') }}"><i class="fa fa-user" aria-hidden="true"></i> Thông tin cá nhân</a></li>
             <li {{ Request::is('list-order*') ? 'class=active' : '' }}><a href="{{ route('my.listOrder') }}"><i class="fa fa-list-alt" aria-hidden="true"></i> Đơn đặt hàng</a></li>
             <li {{ Request::is('my-wishlist') ? 'class=active' : '' }}><a href="{{ route('wishlist') }}"><i class="fa fa-heart-o" aria-hidden="true"></i> Yêu thích</a></li>
         </ul>

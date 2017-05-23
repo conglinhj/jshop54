@@ -8,7 +8,7 @@
         <div class="zigzag-bottom"></div>
         <div class="container">
             <div class="row">
-                <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-12">
                     <div class="product-content-right">
                         <div class="woocommerce">
                             <div class="col-md-12" style="text-align: center">
@@ -20,7 +20,7 @@
                             </div>
 
                             @foreach($products as $product)
-                                <div class="col-md-3 col-sm-3" style="padding: 5px;">
+                                <div class="col-md-2 col-sm-2" style="padding: 5px;">
                                     <div class="single-product box-shadow">
                                         <div class="row">
                                             <div class="col-md-12">

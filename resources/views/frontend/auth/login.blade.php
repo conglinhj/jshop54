@@ -3,7 +3,15 @@
 @section('content')
 <div class="container" style="margin-bottom: 100px ">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 100px;">
+        <div class="col-md-8 col-md-offset-2" style="margin-top: 100px;" >
+
+            @if ( session('active_message') )
+                <div class="alert alert-danger alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>{{ session('active_message') }}</strong>
+                </div>
+            @endif
+
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">

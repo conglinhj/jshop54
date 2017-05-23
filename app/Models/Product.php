@@ -64,6 +64,10 @@ class Product extends Model
         return $this->belongsToMany(User::class, 'wishlist', 'product_id')->withTimestamps();
     }
 
+    public function product() {
+        return $this->belongsToMany(PhieuNhap::class, 'chitiet_phieunhap', 'product_id')->withPivot('quantity', 'price');
+    }
+
     /**
      * -----------------------------------------------------------------------------------------
      * for Backend

@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="coco bootstrap template, coco admin, bootstrap,admin template, bootstrap admin,">
     <meta name="author" content="Huban Creative">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('meta_content')
     <base href="{{ asset('') }}">
     <!-- Base Css Files -->
@@ -156,15 +157,15 @@
 <script src="{{ asset('backend_assets/libs/d3/d3.v3.js') }}"></script>
 <script src="{{ asset('backend_assets/libs/rickshaw/rickshaw.min.js') }}"></script>
 <script src="{{ asset('backend_assets/libs/raphael/raphael-min.js') }}"></script>
-{{--<script src="{{ asset('backend_assets/libs/morrischart/morris.min.js') }}"></script>--}}
+<script src="{{ asset('backend_assets/libs/morrischart/morris.min.js') }}"></script>
 <script src="{{ asset('backend_assets/libs/jquery-knob/jquery.knob.js') }}"></script>
 <script src="{{ asset('backend_assets/libs/jquery-jvectormap/js/jquery-jvectormap-1.2.2.min.js') }}"></script>
 <script src="{{ asset('backend_assets/libs/jquery-jvectormap/js/jquery-jvectormap-us-aea-en.js') }}"></script>
 <script src="{{ asset('backend_assets/libs/jquery-clock/clock.js') }}"></script>
 <script src="{{ asset('backend_assets/libs/jquery-easypiechart/jquery.easypiechart.min.js') }}"></script>
-<script src="{{ asset('backend_assets/libs/jquery-weather/jquery.simpleWeather-2.6.min.js') }}"></script>
+{{--<script src="{{ asset('backend_assets/libs/jquery-weather/jquery.simpleWeather-2.6.min.js') }}"></script>--}}
 <script src="{{ asset('backend_assets/libs/bootstrap-xeditable/js/bootstrap-editable.min.js') }}"></script>
-<script src="{{ asset('backend_assets/libs/bootstrap-calendar/js/bic_calendar.min.js') }}"></script>
+{{--<script src="{{ asset('backend_assets/libs/bootstrap-calendar/js/bic_calendar.min.js') }}"></script>--}}
 <script src="{{ asset('backend_assets/libs/ckfinder/ckfinder.js') }}"></script>
 <script src="{{ asset('backend_assets/js/apps/calculator.js') }}"></script>
 <script src="{{ asset('backend_assets/js/apps/todo.js') }}"></script>

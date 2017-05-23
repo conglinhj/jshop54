@@ -31,6 +31,7 @@ class SocialiteController extends Controller
         $user = Socialite::driver('facebook')->user();
 //        dd($user);
         $authUser = $this->findOrCreateFacebookUser($user);
+
         Auth::login($authUser, true);
         event(new MergeCart($authUser));
         return redirect()->intended('/home');
@@ -44,6 +45,7 @@ class SocialiteController extends Controller
     public function findOrCreateFacebookUser($user){
 
         $auth_jshop = User::orWhere('email', $user->getEmail())->first();
+        $gender = isset($user->user['gender']) ? $user->user['gender'] : '';
         // Email đã tồn tại tài khoản
         if ($auth_jshop){
             // Email đã tồn tại tài khoản và có facebook_id
@@ -52,11 +54,16 @@ class SocialiteController extends Controller
                 return $auth_jshop;
             }
             // Email đã tồn tại tài khoản và nhưng không có facebook_id, update fb_id
-            $auth_jshop->update([ 'facebook_id' => $user->getId(), ]);
+            $auth_jshop->update([
+                'facebook_id' => $user->getId(),
+                'name' => $user->getName(),
+                'avatar' => $user->getAvatar(),
+                'render' => $gender,
+                ]);
             $user_saved = User::where( 'facebook_id', $user->getId() )->first();
             return $user_saved;
         }
-        $gender = isset($user->user['gender']) ? $user->user['gender'] : '';
+
         // Email đã tồn tại tài khoản, tạo tài khoản mới, không có password
         return User::create([
             'name' => $user->getName(),
@@ -73,6 +80,7 @@ class SocialiteController extends Controller
     public function handleProviderGoogleCallback()
     {
         $user = Socialite::driver('google')->user();
+
         $authUser = $this->findOrCreateGoogleUser($user);
 //        dd($authUser);
         Auth::login($authUser, true);

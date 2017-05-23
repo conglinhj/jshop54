@@ -39,13 +39,15 @@ Route::get('product/{pro_id}-{product_slug}', 'HomeController@singleProduct')->n
 Route::get('t{tra_id}-{trademark_slug}', 'HomeController@getProductOfTrademark')->name('trademark');
 /*checkout*/
 Route::group(['middleware' => ['checkout', 'auth']], function (){
-    Route::get('checkout', 'HomeController@checkOut')->name('checkout');
+    Route::get('checkout', 'OrderController@checkOut')->name('checkout');
     Route::post('checkout-store', 'OrderController@store')->name('checkout.store');
 });
 /*user profile*/
 Route::group(['middleware' => 'auth'], function (){
     Route::get('my-order-{id}', 'UserController@myOrder')->name('my.order');
-    Route::get('my-profile/{id}-{slug}', 'UserController@myProfile')->name('my.profile');
+    Route::get('my-profile', 'UserController@myProfile')->name('my.profile');
+    Route::get('edit-my-profile', 'UserController@showProfileEditForm')->name('my.showEditForm');
+    Route::post('edit-my-profile', 'UserController@editMyProfile')->name('my.edit.profile');
     Route::get('list-order', 'UserController@listOrder')->name('my.listOrder');
     /*Wish list*/
     Route::post('add-wishlist', 'UserController@addWishList')->name('add-wishlist');
@@ -122,7 +124,39 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth:admin'], function () 
         Route::post('change-status', 'SpecsController@changeStatus')->name('backend.specs.changeStatus');
         Route::post('change-spotlight', 'SpecsController@changeSpotlight')->name('backend.specs.changeSpotlight');
     });
-
+    /*order route*/
+    Route::group(['prefix' => 'order'], function (){
+        Route::get('list', 'OrderController@index')->name('backend.order.list');
+        Route::get('view', 'OrderController@view')->name('backend.order.view');
+        Route::post('change-productStatus', 'OrderController@changeStatus')->name('backend.order.changeStatus');
+    });
+    /*customer route*/
+    Route::group(['prefix' => 'customer'], function (){
+        Route::get('list', 'UserController@listAll')->name('backend.customer.list');
+        Route::get('view', 'UserController@viewDetail')->name('backend.customer.view');
+        Route::post('destroy', 'UserController@destroy')->name('backend.customer.destroy');
+        Route::post('change-productStatus', 'UserController@changeStatus')->name('backend.customer.changeStatus');
+    });
+    /*phieu nhap route*/
+    Route::group(['prefix' => 'phieunhap'], function (){
+        Route::get('list', 'PhieuNhapController@index')->name('backend.phieunhap.list');
+        Route::get('view', 'PhieuNhapController@viewDetail')->name('backend.phieunhap.view');
+        Route::get('create','PhieuNhapController@showCreateForm')->name('backend.phieunhap.showCreateForm');
+        Route::post('store','PhieuNhapController@store')->name('backend.phieunhap.store');
+        Route::get('edit','PhieuNhapController@showEditForm')->name('backend.phieunhap.showEditForm');
+        Route::post('update','PhieuNhapController@update')->name('backend.phieunhap.update');
+        Route::post('destroy', 'PhieuNhapController@destroy')->name('backend.phieunhap.destroy');
+    });
+    /*provider route*/
+    Route::group(['prefix' => 'provider'], function (){
+        Route::get('list','ProviderController@index')->name('backend.provider.list');
+        Route::get('view-{id}','ProviderController@viewDetails')->name('backend.provider.viewDetails');
+        Route::get('create','ProviderController@showCreateForm')->name('backend.provider.showCreateForm');
+        Route::post('store','ProviderController@store')->name('backend.provider.store');
+        Route::get('edit-{id}','ProviderController@showEditForm')->name('backend.provider.showEditForm');
+        Route::post('update','ProviderController@update')->name('backend.provider.update');
+        Route::post('destroy','ProviderController@destroy')->name('backend.provider.destroy');
+    });
 
 });
 

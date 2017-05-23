@@ -2,39 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PhieuNhap;
 use App\Models\Provider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
-class ProviderController extends Controller
+class PhieuNhapController extends Controller
 {
     /*
-     * list provider
+     * list phieunhap
      */
-    public function index(Provider $provider){
-        $list_provider = $provider->paginate();
-        return view('backend.provider.list',[
-            'list_provider' => $list_provider,
+    public function index(PhieuNhap $phieunhap){
+        $list_phieunhap = $phieunhap->paginate();
+        return view('backend.phieunhap.list',[
+            'list_phieunhap' => $list_phieunhap,
         ]);
     }
 
     /**
-     * @param Provider $provider
+     * @param PhieuNhap $phieunhap
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function viewDetails(Provider $provider, $id){
-        $details_provider = $provider->where('id','=',$id)->with('city','county','township')->first();
-        return view('backend.provider.view',[
-            'details_provider' => $details_provider,
+    public function viewDetails(PhieuNhap $phieunhap, $id){
+        $details_phieunhap = $phieunhap->where('id','=',$id)->with('city','county','township')->first();
+        return view('backend.phieunhap.view',[
+            'details_phieunhap' => $details_phieunhap,
         ]);
     }
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showCreateForm(){
-        return view('backend.provider.create');
+    public function showCreateForm(Provider $provider){
+        $list_provider = $provider->all();
+        return view('backend.phieunhap.create', compact('list_provider'));
     }
 
     /**
@@ -43,8 +44,8 @@ class ProviderController extends Controller
      */
     public function store(Request $request){
         $this->validator($request);
-        $provider = Provider::create($request->all());
-        return redirect(route('backend.provider.viewDetails',['id' => $provider['id'] ]))->with('created_message','Created !');
+        $phieunhap = PhieuNhap::create($request->all());
+        return redirect(route('backend.phieunhap.viewDetails',['id' => $phieunhap['id'] ]))->with('created_message','Created !');
     }
 
     public function validator($request) {
@@ -69,14 +70,14 @@ class ProviderController extends Controller
     }
 
     /**
-     * @param Provider $provider
+     * @param PhieuNhap $phieunhap
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showEditForm(Provider $provider, $id){
-        $details_provider = $provider->where('id','=',$id)->with('city','county','township')->first();
-        return view('backend.provider.edit',[
-            'details_provider' => $details_provider,
+    public function showEditForm(PhieuNhap $phieunhap, $id){
+        $details_phieunhap = $phieunhap->where('id','=',$id)->with('city','county','township')->first();
+        return view('backend.phieunhap.edit',[
+            'details_phieunhap' => $details_phieunhap,
         ]);
     }
 
@@ -86,10 +87,10 @@ class ProviderController extends Controller
      */
     public function update(Request $request){
         $this->validator($request);
-        $provider = Provider::findOrFail($request->id);
-        $provider->update($request->all());
+        $phieunhap = PhieuNhap::findOrFail($request->id);
+        $phieunhap->update($request->all());
 
-        return redirect(route('backend.provider.viewDetails',['id' => $provider['id'] ]))->with('updated_message','Updated !');
+        return redirect(route('backend.phieunhap.viewDetails',['id' => $phieunhap['id'] ]))->with('updated_message','Updated !');
     }
 
     /**
@@ -97,8 +98,8 @@ class ProviderController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request){
-        $provider = Provider::findOrFail($request->provider_id);
-        $provider->delete();
-        return redirect(route('backend.provider.list'))->with('deleted_message','Deleted !');
+        $phieunhap = PhieuNhap::findOrFail($request->phieunhap_id);
+        $phieunhap->delete();
+        return redirect(route('backend.phieunhap.list'))->with('deleted_message','Deleted !');
     }
 }

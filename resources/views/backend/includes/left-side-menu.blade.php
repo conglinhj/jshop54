@@ -29,13 +29,23 @@
             {{--{{ dd(Request::is('backend') == true ? 'class ="active"' : '') }}--}}
             <ul>
                 <li><a {{ Request::is('backend')  ? 'class =active' : '' }} href="{{ route('backend') }}"><i class='icon-home-3'></i><span>Dashboard</span><span class="pull-right"></span></a></li>
-                <li class="has_sub"><a href='javascript:void(0);'><i class='icon-list-nested'></i><span>Quản lý Kho</span><span class="pull-right"><i class="fa fa-angle-down"></i></span></a>
+                <li class="has_sub"><a href='javascript:void(0);'><i class='glyphicon glyphicon-list-alt'></i><span>Xử lý đơn hàng</span><span class="pull-right"><i class="fa fa-angle-down"></i></span></a>
                     <ul>
-                        <li><a href=""></a></li>
-                        <li><a href=""></a></li>
-                        <li><a href=""></a></li>
+                        <li><a {{ Request::is('backend/order*')  ? 'class =active' : '' }} href='{{ route('backend.order.list') }}'><span>Danh sách đơn hàng</span></a></li>
                     </ul>
                 </li>
+                <li class="has_sub"><a href='javascript:void(0);'><i class='icon-users'></i><span>Quản lý Khách hàng</span><span class="pull-right"><i class="fa fa-angle-down"></i></span></a>
+                    <ul>
+                        <li><a {{ Request::is('backend/customer*')  ? 'class =active' : '' }} href="{{ route('backend.customer.list') }}"><span>Danh sách khách hàng</span></a></li>
+                    </ul>
+                </li>
+
+                {{--<li class="has_sub"><a href='javascript:void(0);'><i class='icon-list-nested'></i><span>Quản lý nhập hàng</span><span class="pull-right"><i class="fa fa-angle-down"></i></span></a>--}}
+                    {{--<ul>--}}
+                        {{--<li><a {{ Request::is('backend/phieunhap*')  ? 'class =active' : '' }} href="{{ route('backend.phieunhap.list') }}">Danh sách phiếu nhập</a></li>--}}
+                        {{--<li><a {{ Request::is('backend/provider*')  ? 'class =active' : '' }} href="{{ route('backend.provider.list') }}">Danh sách nhà cung cấp</a></li>--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
                 <li class='has_sub'><a href='javascript:void(0);'><i class='icon-feather'></i><span>Loại sản phẩm</span><span class="pull-right"><i class="fa fa-angle-down"></i></span></a>
                     <ul>
                         <li><a {{ Request::is('backend/category*')  ? 'class =active' : '' }} href='{{ route('backend.category.list') }}'><i class="icon-list"></i><span>Danh sách loại sản phẩm</span></a></li>
@@ -58,13 +68,7 @@
                         <li><a {{ Request::is('backend/products/create*')  ? 'class =active' : '' }} href='{{ route('backend.products.showCreateForm') }}'><i class="fa fa-plus"></i><span>Thêm sản phẩm mới</span></a></li>
                     </ul>
                 </li>
-                <li class="has_sub"><a href='javascript:void(0);'><i class='icon-users'></i><span>Quản lý Khách hàng</span><span class="pull-right"><i class="fa fa-angle-down"></i></span></a>
-                    <ul>
-                        <li><a href=""></a></li>
-                        <li><a href=""></a></li>
-                        <li><a href=""></a></li>
-                    </ul>
-                </li>
+
             </ul>
         </div>
         <div class="clearfix"></div><br><br><br>

@@ -19,5 +19,12 @@ class City extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function user() {
+        return $this->hasMany(User::class);
+    }
+
+    public function provider() {
+        return $this->hasMany(Provider::class);
+    }
 
 }

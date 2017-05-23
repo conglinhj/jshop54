@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
+    const ACTIVE = 1;
+    const DEACTIVATED = 1;
+
     use Notifiable;
     use SoftDeletes;
 
@@ -17,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'avatar', 'render', 'phone', 'facebook_id', 'google_id',
+        'name', 'email', 'status', 'avatar', 'render', 'phone', 'facebook_id', 'google_id',
         'city_id', 'county_id', 'township_id', 'address', 'password',
     ];
 
@@ -47,5 +50,15 @@ class User extends Authenticatable
 
     public function product() {
         return $this->belongsToMany(Product::class, 'wishlist', 'user_id')->withTimestamps();
+    }
+
+    public function city() {
+        return $this->belongsTo(City::class);
+    }
+    public function county() {
+        return $this->belongsTo(County::class);
+    }
+    public function township() {
+        return $this->belongsTo(Township::class);
     }
 }

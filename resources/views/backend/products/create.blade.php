@@ -23,9 +23,12 @@
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                                     <label for="input-text" class="control-label">Tên sản phẩm</label>
                                     <input name="name" type="text" class="form-control" id="input-text" placeholder="name product...">
+                                    @if($errors->has('name'))
+                                        <small class="help-block">{{ $errors->first('name') }}</small>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-md-6">

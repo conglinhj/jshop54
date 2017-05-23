@@ -138,7 +138,7 @@
     border: 1px solid #5a88ca;
     width: 15%;z-index: 99;transition: .4s;
 }
-.btn-add-cart a.view-details-link {
+.btn-add-cart a.view-details-link, .btn-add-cart a.view-details-liked  {
     background: none repeat scroll 0 0 #da3500;
     border: 1px solid #da3500;
 }
@@ -162,7 +162,7 @@
 .single-product:hover .btn-add-cart a.add-to-cart-link {
     bottom: 55%;
 }
-.single-product:hover .btn-add-cart a.view-details-link {
+.single-product:hover .btn-add-cart a.view-details-link, .btn-add-cart a.view-details-liked  {
     bottom: 45%;
 }
 /*my-order*/
@@ -172,4 +172,9 @@
 .text-right{
     text-align: right;
 }
-
+#table-user-info tr td{
+    border-top: 0;
+}
+#table-user-info tr td:first-child{
+    width: 20%;
+}

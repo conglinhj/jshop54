@@ -10,6 +10,9 @@ use App\Models\City;
 use App\Models\County;
 use App\Models\Township;
 use Illuminate\Support\Facades\View;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Events\SyncDbCartToSessionCart;
 
 class HomeController extends Controller
 {
@@ -33,6 +36,10 @@ class HomeController extends Controller
 
     public function home()
     {
+        if (Auth::check()){
+            $authCurrent = User::find(Auth::id());
+            event(new SyncDbCartToSessionCart($authCurrent));
+        }
         return view('frontend.pages.home');
     }
 
@@ -41,6 +48,10 @@ class HomeController extends Controller
      */
     public function shop(Product $product, Request $request)
     {
+        if (Auth::check()){
+            $authCurrent = User::find(Auth::id());
+            event(new SyncDbCartToSessionCart($authCurrent));
+        }
         $products = $product->isActive();
         if ($request->key) {
             $products = self::searchProduct($request);
@@ -49,6 +60,10 @@ class HomeController extends Controller
     }
 
     public function ProductOfCategory(Product $product, Request $request) {
+        if (Auth::check()){
+            $authCurrent = User::find(Auth::id());
+            event(new SyncDbCartToSessionCart($authCurrent));
+        }
         $products = $product->isActiveOfCategory($request->category_id);
         if ($request->trademark){
             $products = $product->getProductsOfTrademarkAndCategory($request->category_id, $request->trademark);
@@ -59,11 +74,7 @@ class HomeController extends Controller
         return view('frontend.pages.shop',compact('products'));
     }
 
-    public function checkOut()
-    {
-        $cities = City::all();
-        return view('frontend.pages.checkout', compact('cities'));
-    }
+
 
     public function singleProduct(Request $request, Hardware $hardware, Product $product)
     {
@@ -76,6 +87,10 @@ class HomeController extends Controller
      * get product with trademark
      */
     public function getProductOfTrademark(Product $product, Request $request){
+        if (Auth::check()){
+            $authCurrent = User::find(Auth::id());
+            event(new SyncDbCartToSessionCart($authCurrent));
+        }
         $products = $product->getProductsOfTrademark($request->tra_id);
         return view('frontend.pages.trademark-product', compact('products'));
     }

@@ -14,10 +14,11 @@
                         <thead>
                         <tr>
                             <th style="width: 10%">Mã đơn hàng</th>
-                            <th style="width: 20%">Người nhận</th>
+                            <th style="width: 15%">Người nhận</th>
                             <th>Phone</th>
                             <th style="width: 40%">Địa chỉ</th>
                             <th>Ngày tạo</th>
+                            <th>Trạng thái</th>
                             <th style="width: 6%">Chi tiết</th>
                         </tr>
                         </thead>
@@ -29,6 +30,7 @@
                                 <td>{{$order->phone}}</td>
                                 <td>{{ $order->address.', '.$order->township->name.', '.$order->county->name.', '.$order->city->name }}</td>
                                 <td>{{$order->created_at->format('Y-m-d')}}</td>
+                                <td>{{$order->status==0 ? 'Đang chờ xử lý' : $order->status==1 ?'Đã được duyệt' : 'Đã bị hủy' }}</td>
                                 <td><a href="{{ route('my.order',['id' =>$order->id]) }}">xem <i class="fa fa-eye"></i></a></td>
                             </tr>
                         @endforeach

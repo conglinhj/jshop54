@@ -11,6 +11,10 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 class OrderController extends Controller
 {
+    public function checkOut()
+    {
+        return view('frontend.pages.checkout');
+    }
 
     public function store(Request $request, Order $order,DbCart $cart) {
 //        dd($request->product_id[0]);
@@ -47,6 +51,49 @@ class OrderController extends Controller
             'phone.numeric' => 'Số điện thoại phải là số',
         ];
         Validator::make($request->all(), $rules, $messages)->validate();
+    }
+
+    /* for backend */
+
+    public function index(Request $request, Order $order) {
+        $orders = $order->where('status', '=', 0)->with('user')->paginate(20);
+        if ($request->status){
+            if ($request->status == 10){
+                $orders = $order->with('user')->paginate(20);
+            } else{
+                $orders = $order->where('status', '=', $request->status)->with('user')->paginate(20);
+            }
+        }
+        if ($request->order_id){
+            $this->validate($request,['order_id' => 'required']);
+            $orders = $order->where('id','=',$request->order_id)->paginate();
+        }
+        if ($request->date){
+            $orders = $order->where('created_at','like',$request->date.'%')->paginate();
+        }
+
+        return view('backend.order.list',compact('orders'));
+    }
+    public function view(Request $request, Order $order) {
+
+        if ( $request->ajax() ){
+            return response()->json([
+                'order_detail' => $order->where('id', '=', $request->id)
+                    ->with('city','county','township','user', 'product')
+                    ->first()
+            ], 200);
+        }
+        $order_detail = $order->where('id', '=', $request->id)
+            ->with('city','county','township','user', 'product')
+            ->first();
+
+        return view('backend.order.view', compact('order_detail'));
+
+    }
+    public function changeStatus(Request $request, Order $order) {
+        $order_details = $order->find($request->id);
+        $order_details->status = $request->status;
+        $order_details->save();
     }
 
 }

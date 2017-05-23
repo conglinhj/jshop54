@@ -1,7 +1,9 @@
 @extends('frontend.master')
 @section('title', 'Thanh toán ')
+@section('menu-area')
+    @include('frontend.includes.menu-area-for-shop')
+@endsection
 @section('content')
-
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">

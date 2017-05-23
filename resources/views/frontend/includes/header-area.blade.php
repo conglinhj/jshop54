@@ -31,7 +31,7 @@
                             <li class="dropdown dropdown-small">
                                 <a  data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">{{ Auth::user()->name }} <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="btn-link"  href="{{ route('my.profile', ['slug' => str_slug(Auth::user()->name), 'id'=>Auth::id()]) }}"><i class="fa fa-user"></i>  profile</a></li>
+                                    <li><a class="btn-link"  href="{{ route('my.profile') }}"><i class="fa fa-user"></i>  profile</a></li>
                                     <li>
                                         <a class="btn-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i>  Thoát</a>
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">

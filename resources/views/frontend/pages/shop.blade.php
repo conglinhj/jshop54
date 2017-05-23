@@ -165,6 +165,7 @@
         });
 
         /*wishlist*/
+        var message_block = $('.message-block');
         $('.view-details-link').on('click', function () {
             $.ajax({
                 type : 'POST',
@@ -173,8 +174,9 @@
                     proId : $(this).attr('data-proId')
                 },
                 success : function () {
-                    $('.message-block').show();
-                    $('.message-block').fadeOut(3000);
+                    $('.btn-add-cart').append();
+                    message_block.show();
+                    message_block.fadeOut(6000);
                 },
                 error : function (message) {
                     console.log(message);

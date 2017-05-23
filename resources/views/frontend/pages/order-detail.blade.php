@@ -13,7 +13,12 @@
                         <div class="woocommerce">
 
                             <div class="col-md-8 col-md-offset-2">
-                                <h3>Đơn hàng của bạn đang được xử lý.</h3>
+                                <h3>Đơn hàng của bạn
+                                    @if($order_detail->status ==0)đang được xử lý.
+                                    @elseif($order_detail->status ==1)đã được duyệt
+                                    @elseif($order_detail->status ==2)đã bị hủy
+                                    @endif
+                                </h3>
                                 <table class="my-order-table table table-bordered">
                                     <tr>
                                         <td class="text-right" width="150">Mã đơn hàng </td>
@@ -48,7 +53,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($order_detail->product as $item)
+                                    @foreach($order_detail->product as $key => $item)
                                         <tr>
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->pivot->quantity }}</td>

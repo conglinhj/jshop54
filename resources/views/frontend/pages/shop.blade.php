@@ -99,7 +99,8 @@
             </div>
             <div class="col-md-12">
                 <div class="text-center">
-                    <a href="#">Show more <i class="fa fa-sort-desc"></i></a>
+                    {{ $products->links() }}
+                    {{--<a href="#">Show more <i class="fa fa-sort-desc"></i></a>--}}
                 </div>
             </div>
         </div>

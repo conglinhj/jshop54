@@ -53,17 +53,18 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+
                                     @foreach($order_detail->product as $key => $item)
                                         <tr>
-                                            <td>{{ $item->name }}</td>
-                                            <td>{{ $item->pivot->quantity }}</td>
-                                            <td>{{ number_format($item->pivot->price,0,",",".") }}₫</td>
-                                            <td>{{ $item->pivot->discount }}</td>
+                                            <td>{{ @$item->name }}</td>
+                                            <td>{{ @$item->pivot->quantity }}</td>
+                                            <td>{{ number_format(@$item->pivot->price,0,",",".") }}₫</td>
+                                            <td>{{ @$item->pivot->discount }}</td>
                                         </tr>
                                     @endforeach
                                     <tr class="success">
                                         <td colspan="3">Tổng tiền</td>
-                                        <td>{{ number_format($item->pivot->price*$item->pivot->quantity,0,",",".")}}₫</td>
+                                        <td>{{ number_format(@$item->pivot->price*@$item->pivot->quantity,0,",",".")}}₫</td>
                                     </tr>
                                     </tbody>
 

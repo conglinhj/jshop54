@@ -133,8 +133,10 @@ class Product extends Model
 
     public function isActive()
     {
-        return $this->where('status', '=', self::ACTIVE)
-            ->with(['user',
+        return $this->where([
+                ['status', '=', self::ACTIVE],
+                ['quantity', '>', 0],
+            ])->with(['user',
                 'trademark',
                 'specs' => function ($query) {
                     $query->where('spotlight', '=', self::ACTIVE)
@@ -142,13 +144,16 @@ class Product extends Model
                 }
             ])
             ->latest()
-            ->get();
+            ->paginate(12);
     }
 
     public function isActiveOfCategory($cate_id)
     {
-        return $this->where([ ['status', '=', self::ACTIVE], ['category_id', '=', $cate_id]])
-            ->with(['user',
+        return $this->where([
+                ['status', '=', self::ACTIVE],
+                ['category_id', '=', $cate_id],
+                ['quantity', '>', 0],
+            ])->with(['user',
                 'trademark',
                 'specs' => function ($query) {
                     $query->where('spotlight', '=', self::ACTIVE)
@@ -156,7 +161,7 @@ class Product extends Model
                 }
             ])
             ->latest()
-            ->get();
+            ->paginate(12);
     }
 
     public function getDetailProductIsActive($id)
@@ -178,7 +183,8 @@ class Product extends Model
             ['status', '=', self::ACTIVE],
             ['category_id', '=', $category],
             ['trademark_id', '=', $id],
-        ])->get();
+            ['quantity', '>', 0],
+        ])->paginate(12);
     }
 
     public function getProductsOfTrademark($id)
@@ -186,7 +192,14 @@ class Product extends Model
         return $this->where([
             ['status', '=', self::ACTIVE],
             ['trademark_id', '=', $id],
-        ])->get();
+            ['quantity', '>', 0],
+        ])->with(['user',
+            'trademark',
+            'specs' => function ($query) {
+                $query->where('status', '=', self::ACTIVE)
+                    ->with('hardware')
+                    ->get();
+            }])->paginate(12);
     }
 
     public function searchProductIsActive($key_search)
@@ -195,26 +208,49 @@ class Product extends Model
             ['status', '=', self::ACTIVE],
             ['name', 'like', '%' . $key_search . '%'],
         ])
-            ->get();
+            ->paginate(12);
     }
 
     public function getProductWithPrice($category,$key = 0)
     {
         switch ($key) {
             case 1:
-                return $this->where([ ['price', '>=', 0], ['price', '<', 10000000], ['category_id', '=', $category] ])->orderBy('price')->get();
+                return $this->where([
+                        ['price', '>=', 0],
+                        ['price', '<', 10000000],
+                        ['category_id', '=', $category],
+                        ['quantity', '>', 0],
+                    ])->orderBy('price')->paginate(12);
                 break;
             case 2:
-                return $this->where([ ['price', '>=', 10000000], ['price', '<', 15000000], ['category_id', '=', $category] ])->orderBy('price')->get();
+                return $this->where([
+                        ['price', '>=', 10000000],
+                        ['price', '<', 15000000],
+                        ['category_id', '=', $category],
+                        ['quantity', '>', 0],
+                    ])->orderBy('price')->paginate(12);
                 break;
             case 3:
-                return $this->where([ ['price', '>=', 15000000], ['price', '<', 20000000], ['category_id', '=', $category] ])->orderBy('price')->get();
+                return $this->where([
+                        ['price', '>=', 15000000],
+                        ['price', '<', 20000000],
+                        ['category_id', '=', $category],
+                        ['quantity', '>', 0],
+                ])->orderBy('price')->paginate(12);
                 break;
             case 4:
-                return $this->where([ ['price', '>=', 20000000], ['category_id', '=', $category]])->orderBy('price')->get();
+                return $this->where([
+                        ['price', '>=', 20000000],
+                        ['category_id', '=', $category],
+                        ['quantity', '>', 0],
+                    ])->orderBy('price')->paginate(12);
                 break;
             default:
-                return $this->where([ ['price', '>=', 0], ['category_id', '=', $category] ])->get();
+                return $this->where([
+                        ['price', '>=', 0],
+                        ['category_id', '=', $category],
+                        ['quantity', '>', 0],
+                ])->paginate(12);
                 break;
         }
 

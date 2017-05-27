@@ -81,8 +81,14 @@ class HardwareController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request){
+    public function destroy(Request $request, Specs $specs){
         $hardware = Hardware::findOrFail($request->hardware_id);
+        $specs_s = $specs->where('hardware_id','=',$request->hardware_id)->get();
+//        dd($specs_s);
+        if (count($specs_s) != 0){
+            return redirect()->back()->with('delete_message','Không thể xóa');
+        }
+
         $hardware->delete();
         return redirect(route('backend.hardware.list'))->with('deleted_message','Deleted !');
     }

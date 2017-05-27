@@ -16,7 +16,8 @@ class Order extends Model
     }
 
     public function product() {
-        return $this->belongsToMany(Product::class, 'order_details', 'order_id')->withPivot('quantity', 'price', 'discount');
+        return $this->belongsToMany(Product::class, 'order_details', 'order_id')
+                    ->withPivot('quantity', 'price', 'discount');
     }
 
     public function saveDetails($pro_id, $qty, $price, $discount = 0) {
@@ -33,6 +34,11 @@ class Order extends Model
         return $this->belongsTo(Township::class);
     }
 
+    public function detachToOrdetail($array) {
+        $this->product()->detach($array);
+        return true;
+    }
+
     /*frontend*/
     public function getDetails($id, $user_id){
         return $this->where([
@@ -44,7 +50,7 @@ class Order extends Model
     }
 
     public function getListOrderOfUserCurrent($user_id){
-        return $this->where('user_id','=',$user_id)->get();
+        return $this->where('user_id','=',$user_id)->paginate();
     }
 
 }

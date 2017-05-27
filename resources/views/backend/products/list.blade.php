@@ -6,7 +6,7 @@
 @section('content')
     <!-- Page Heading Start -->
     <div class="page-heading">
-        <h1><i class='fa fa-table'></i> List Products</h1>
+        <h1><i class='fa fa-table'></i> Danh sách sản phẩm.</h1>
         @if(session('deleted_message'))
             <div class="alert alert-info alert-danger col-md-6">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -19,7 +19,6 @@
         <div class="col-md-12">
             <div class="widget">
                 <div class="widget-header transparent">
-                    <h2><strong>Toolbar</strong> CRUD Table</h2>
                     <div class="additional-btn">
                         <a href="#" class="hidden reload"><i class="icon-ccw-1"></i></a>
                         <a href="#" class="widget-toggle"><i class="icon-down-open-2"></i></a>
@@ -67,14 +66,14 @@
                             <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Image</th>
-                                <th>Product Name</th>
-                                <th>Trademark</th>
-                                <th>Category</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Status</th>
-                                <th data-sortable="false">Option</th>
+                                <th>Ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Thương hiệu</th>
+                                <th>Loại</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Trạng thái</th>
+                                <th data-sortable="false">View</th>
                             </tr>
                             </thead>
 

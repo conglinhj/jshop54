@@ -20,13 +20,13 @@
                 <div class="header-right">
                     <ul class="list-unstyled list-inline">
 
-                        <li class="dropdown dropdown-small">
-                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="value">English </span><b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Vietnam</a></li>
-                                <li><a href="#">English</a></li>
-                            </ul>
-                        </li>
+                        {{--<li class="dropdown dropdown-small">--}}
+                            {{--<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="value">English </span><b class="caret"></b></a>--}}
+                            {{--<ul class="dropdown-menu">--}}
+                                {{--<li><a href="#">Vietnam</a></li>--}}
+                                {{--<li><a href="#">English</a></li>--}}
+                            {{--</ul>--}}
+                        {{--</li>--}}
                         @if(Auth::check())
                             <li class="dropdown dropdown-small">
                                 <a  data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">{{ Auth::user()->name }} <b class="caret"></b></a>

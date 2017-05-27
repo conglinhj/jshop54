@@ -122,8 +122,18 @@ class UserController extends Controller
         $user->save();
     }
 
-    public  function destroy () {
-
+    public  function destroy (Request $request, User $user, Order $order) {
+        $user_detail = $user->find($request->user_id);
+        $orders = $order->where('user_id','=',$request->user_id)->get();
+        if (count($orders)!= 0){
+            $ar_orId = array();
+            foreach ($orders as $item){
+                $ar_orId[] = $item->id;
+            }
+            return redirect()->back()->with('delete_message', 'Không thể xóa, người dùng này có dữ liệu ở đơn hàng có mã '.implode(', ',$ar_orId));
+        }
+        $user_detail->delete();
+        return redirect()->route('backend.customer.list')->with('deleted_message', 'Đã xóa người dùng có id '.$request->user_id);
     }
 
 }

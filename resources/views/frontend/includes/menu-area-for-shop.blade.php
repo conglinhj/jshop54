@@ -25,7 +25,7 @@
                 </li>
             @endforeach
             <li {{ Request::is('new') ? 'class=active' : '' }}><a href="{{ route('shop') }}"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Tin tức</a></li>
-            <li {{ Request::is('sale') ? 'class=active' : '' }}><a href="{{ route('shop') }}"><i class="fa fa-gift" aria-hidden="true"></i> Khuyến mãi</a></li>
+            {{--<li {{ Request::is('sale') ? 'class=active' : '' }}><a href="{{ route('shop') }}"><i class="fa fa-gift" aria-hidden="true"></i> Khuyến mãi</a></li>--}}
         </ul>
     </div>
 </div>

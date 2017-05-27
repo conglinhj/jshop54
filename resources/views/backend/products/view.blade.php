@@ -16,6 +16,11 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             {{ session('created_message') }}
         </div>
+    @elseif(session('deleted_message'))
+        <div class="alert alert-info alert-danger col-md-8 col-md-offset-2">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{ session('deleted_message') }}
+        </div>
     @endif
     <!-- Page Heading End-->
     <div class="row">

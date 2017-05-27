@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hardware;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Trademark;
@@ -112,8 +113,23 @@ class ProductsController extends Controller
         $product->save();
     }
 
-    public function destroy(Specs $specs, Request $request){
+    public function destroy(Specs $specs, Request $request, Order $order){
+
         $product = Product::FindOrFail($request->product_id);
+        $pro_id = $product->id;
+
+        $orders = $order->whereHas('product', function ($query) use ($pro_id) {
+            $query->where('id', '=', $pro_id);
+        })->with('product')->get();
+
+        if (count($orders) != 0){
+            $ar_order_id = array();
+            foreach ($orders as $item){
+                $ar_order_id[] = $item->id;
+            }
+            return redirect()->back()
+                ->with('deleted_message','Không thể xóa, sản phẩm này có dữ liệu trong đơn hàng có mã '.implode(", ",$ar_order_id));
+        }
 
         // detach to product_specs table
         // step 1 : destroy to product_specs table.

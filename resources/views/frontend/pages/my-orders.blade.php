@@ -35,8 +35,12 @@
                             </tr>
                         @endforeach
                         </tbody>
-                    </table>
 
+                    </table>
+                    <div class="text-center">
+                        {{ $orders->links() }}
+                        {{--<a href="#">Show more <i class="fa fa-sort-desc"></i></a>--}}
+                    </div>
                 </div>
             </div>
         </div>

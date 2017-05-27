@@ -42,9 +42,11 @@
                                     <ins>{{ number_format($product_details['price'],0,",",".") }}₫</ins>
                                 </div>
                                 @if($product_details->quantity <= 50)
-                                    <p style="color: red;">chỉ còn sản {{$product_details->quantity}} phẩm</p>
+                                    <p style="color: red;">Nhanh tay mua, chỉ còn sản {{$product_details->quantity}} phẩm</p>
                                 @endif
-                                @if($product_details->quantity != 0)
+                                @if($product_details->quantity == 0)
+                                    <strong>Xin lỗi quý khách, sản phẩm này đã hết hàng</strong>
+                                @else
                                     <a href="{{ route('cart-add',['id' => $product_details['id']]) }}" class="add_to_cart_button" type="submit">Add to cart</a>
                                 @endif
                             </div>

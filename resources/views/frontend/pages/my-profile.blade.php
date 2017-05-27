@@ -34,15 +34,15 @@
                                         </tr>
                                         <tr>
                                             <td>Giới tính</td>
-                                            <td> {{ $user->render == 'female' ? 'Nữ' : 'Nam' }}</td>
+                                            <td> {{ @$user->render == 'female' ? 'Nữ' : 'Nam' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Số điện thoại</td>
-                                            <td>{{$user->phone}}</td>
+                                            <td>{{@$user->phone}}</td>
                                         </tr>
                                         <tr>
                                             <td>Địa chỉ</td>
-                                            <td>{{ $user->address.', '.$user->township->name.', '.$user->county->name.', '.$user->city->name}}</td>
+                                            <td>{{ @$user->address.', '.@$user->township->name.', '.@$user->county->name.', '.@$user->city->name}}</td>
                                         </tr>
                                         <tr>
                                             <td></td>

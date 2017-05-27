@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Trademark;
 use Illuminate\Support\Facades\Validator;
@@ -87,9 +88,13 @@ class TrademarksController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, Product $product)
     {
         $trademark = Trademark::findOrFail($request->trademark_id);
+        $products = $product->where('trademark_id','=',$request->trademark_id)->get();
+        if (count($products) != 0){
+            return redirect()->back()->with('delete_message','Không thể xóa.');
+        }
         $trademark->delete();
         return redirect(route('backend.trademarks.list'))->with('trademark_deleted','Deleted!');
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Specs;
@@ -81,8 +82,12 @@ class CategoriesController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request){
+    public function destroy(Request $request, Product $product){
         $category = Category::findOrFail($request->category_id);
+        $products = $product->where('category_id','=',$request->category_id)->get();
+        if (count($products) != 0){
+            return redirect()->back()->with('delete_message','Không thể xóa.');
+        }
         $category->delete();
         return redirect(route('backend.category.list'))->with('deleted_message','Deleted !');
     }

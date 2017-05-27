@@ -121,11 +121,6 @@
                         @endforeach
                         </tbody>
                         <tfoot>
-                            <tr class="cart-subtotal">
-                                <th>Tạm tính</th>
-                                <td><span class="amount">{{ Cart::subtotal(0) }}₫</span>
-                                </td>
-                            </tr>
                             <tr class="shipping">
                                 <th>Phí vận chuyển</th>
                                 <td>
@@ -135,7 +130,8 @@
                             </tr>
                             <tr class="order-total">
                                 <th>Tổng tiền thanh toán</th>
-                                <td><strong><span class="amount">£15.00</span></strong> </td>
+                                <td><span class="amount">{{ Cart::subtotal(0) }}₫</span>
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="2"><a href="{{route('cart')}}" class="btn btn-primary">Cập nhật giỏ hàng</a></td>
@@ -144,21 +140,21 @@
                     </table>
                         <div id="payment">
                         <ul class="payment_methods methods">
-                            <li class="payment_method_bacs">
-                                <input type="radio" data-order_button_text=""  value="bacs" name="payment_method" class="input-radio" id="payment_method_bacs">
+                            <li class="payment_method_bacs" style="color: grey">
+                                <input disabled type="radio" data-order_button_text=""  value="bacs" name="payment_method" class="input-radio" id="payment_method_bacs">
                                 <label for="payment_method_bacs">Thanh toán bằng dịch vụ Internet Banking </label>
                                 <div class="payment_box payment_method_bacs">
                                     <p>Đảm bảo tài khoản ngân hàng của bạn đã đăng ký dịch vụ Internet Banking.</p>
                                 </div>
                             </li>
-                            <li class="payment_method_paypal">
-                                <input type="radio" data-order_button_text="Proceed to PayPal" value="paypal" name="payment_method" class="input-radio" id="payment_method_paypal">
-                                <label for="payment_method_paypal">PayPal <img alt="PayPal Acceptance Mark" src="https://www.paypalobjects.com/webstatic/mktg/Logo/AM_mc_vs_ms_ae_UK.png"><a title="What is PayPal?" onclick="javascript:window.open('https://www.paypal.com/gb/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;" class="about_paypal" href="https://www.paypal.com/gb/webapps/mpp/paypal-popup">What is PayPal?</a>
-                                </label>
-                                <div style="display:none;" class="payment_box payment_method_paypal">
-                                    <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
-                                </div>
-                            </li>
+                            {{--<li class="payment_method_paypal">--}}
+                                {{--<input type="radio" data-order_button_text="Proceed to PayPal" value="paypal" name="payment_method" class="input-radio" id="payment_method_paypal">--}}
+                                {{--<label for="payment_method_paypal">PayPal <img alt="PayPal Acceptance Mark" src="https://www.paypalobjects.com/webstatic/mktg/Logo/AM_mc_vs_ms_ae_UK.png"><a title="What is PayPal?" onclick="javascript:window.open('https://www.paypal.com/gb/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;" class="about_paypal" href="https://www.paypal.com/gb/webapps/mpp/paypal-popup">What is PayPal?</a>--}}
+                                {{--</label>--}}
+                                {{--<div style="display:none;" class="payment_box payment_method_paypal">--}}
+                                    {{--<p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>--}}
+                                {{--</div>--}}
+                            {{--</li>--}}
                             <li class="payment_method_cheque">
                                 <input type="radio" data-order_button_text="" checked="checked" value="cheque" name="payment_method" class="input-radio" id="payment_method_cheque">
                                 <label for="payment_method_cheque">Thanh toán khi nhận hàng (COD)</label>

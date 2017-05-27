@@ -9,14 +9,19 @@
     <div class="page-heading">
         <h1><i class='icon-info-circled-2'></i> Details Hardware</h1>
         @if(session('updated_message'))
-            <div class="alert alert-info alert-dismissable col-md-6">
+            <div class="alert alert-info alert-dismissable col-md-7">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 {{ session('updated_message') }}
             </div>
         @elseif(session('created_message'))
-            <div class="alert alert-success alert-dismissable col-md-6">
+            <div class="alert alert-success alert-dismissable col-md-7">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 {{ session('created_message') }}
+            </div>
+        @elseif(session('delete_message'))
+            <div class="alert alert-info alert-danger col-md-7">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ session('delete_message') }}
             </div>
         @endif
     </div>

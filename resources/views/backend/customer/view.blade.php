@@ -15,6 +15,11 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             {{ session('created_message') }}
         </div>
+    @elseif(session('delete_message'))
+        <div class="alert alert-danger alert-dismissable col-md-8 col-md-offset-2">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{ session('delete_message') }}
+        </div>
     @endif
     <!-- Page Heading End-->
     <div class="row">
@@ -37,7 +42,7 @@
                                         <i class="fa fa-trash-o"></i> Delete</a>
                                     <form id="product_form_delete" action="{{ route('backend.customer.destroy') }}" method="post" style="display: none;">
                                         {{ csrf_field() }}
-                                        <input type="hidden" value="{{ $detail_user['id'] }}" name="product_id">
+                                        <input type="hidden" value="{{ $detail_user['id'] }}" name="user_id">
                                     </form>
                                 </div>
                             </div>
